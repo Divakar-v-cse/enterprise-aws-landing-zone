@@ -1,0 +1,68 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.15.8",
+  "resource_changes": [
+    {
+      "address": "module.networking.aws_vpc.main",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["update"],
+        "before": {"id": "vpc-0a1b2c3d", "cidr_block": "10.10.0.0/16", "enable_dns_hostnames": false,
+                   "tags": {"Project": "eawlz", "Environment": "dev", "ManagedBy": "terraform"}},
+        "after":  {"id": "vpc-0a1b2c3d", "cidr_block": "10.10.0.0/16", "enable_dns_hostnames": true,
+                   "tags": {"Project": "eawlz", "Environment": "dev", "ManagedBy": "terraform"}}
+      }
+    },
+    {
+      "address": "module.compute.aws_instance.app",
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {"instance_type": "t3.micro",
+                  "tags_all": {"Project": "eawlz", "Environment": "dev", "ManagedBy": "terraform",
+                               "Owner": "platform-engineering", "CostCenter": "CC-DEV-001"}}
+      }
+    },
+    {
+      "address": "module.storage.aws_s3_bucket.data",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "data",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {"bucket": "eawlz-dev-data",
+                  "tags_all": {"Project": "eawlz", "Environment": "dev", "ManagedBy": "terraform",
+                               "Owner": "platform-engineering", "CostCenter": "CC-DEV-001"}}
+      }
+    },
+    {
+      "address": "module.storage.aws_s3_bucket.old-bucket",
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "old-bucket",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {"actions": ["delete"], "before": {"bucket": "eawlz-dev-legacy", "tags": {"Project": "eawlz"}}, "after": null}
+    }
+  ],
+  "prior_state": {
+    "format_version": "1.0",
+    "terraform_version": "1.15.8",
+    "values": {
+      "root_module": {
+        "resources": [
+          {"address": "module.networking.aws_vpc.main", "mode": "managed", "type": "aws_vpc", "name": "main", "provider_name": "aws", "values": {"id": "vpc-0a1b2c3d"}},
+          {"address": "module.storage.aws_s3_bucket.old-bucket", "mode": "managed", "type": "aws_s3_bucket", "name": "old-bucket", "provider_name": "aws", "values": {"id": "eawlz-dev-legacy"}}
+        ]
+      }
+    }
+  }
+}

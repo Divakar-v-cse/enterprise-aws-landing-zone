@@ -1,0 +1,86 @@
+module.iam.data.aws_iam_policy_document.ec2_assume_role: Reading...
+module.iam.data.aws_iam_policy_document.ec2_assume_role: Read complete after 0s [id=2893812614]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # module.backup.aws_backup_vault.this will be created
+  + resource "aws_backup_vault" "this" {
+      + arn             = (known after apply)
+      + force_destroy   = false
+      + id              = (known after apply)
+      + kms_key_arn     = (known after apply)
+      + name            = "eawlz-dev-vault"
+      + recovery_points = (known after apply)
+      + region          = "us-east-1"
+      + tags            = {
+          + "Backup"      = "true"
+          + "CostCenter"  = "CC-DEV-001"
+          + "DataClass"   = "internal"
+          + "Environment" = "dev"
+          + "ManagedBy"   = "terraform"
+          + "Module"      = "backup"
+          + "Name"        = "eawlz-dev-vault"
+          + "Owner"       = "platform-engineering"
+          + "Project"     = "eawlz"
+          + "Repository"  = "enterprise-aws-landing-zone"
+        }
+      + tags_all        = {
+          + "Backup"      = "true"
+          + "CostCenter"  = "CC-DEV-001"
+          + "DataClass"   = "internal"
+          + "Environment" = "dev"
+          + "ManagedBy"   = "terraform"
+          + "Module"      = "backup"
+          + "Name"        = "eawlz-dev-vault"
+          + "Owner"       = "platform-engineering"
+          + "Project"     = "eawlz"
+          + "Repository"  = "enterprise-aws-landing-zone"
+        }
+    }
+
+  # module.iam.aws_iam_instance_profile.ec2 will be created
+  + resource "aws_iam_instance_profile" "ec2" {
+      + arn         = (known after apply)
+      + create_date = (known after apply)
+      + id          = (known after apply)
+... 2074 lines omitted (full capture reproducible with the command in docs/TESTING.md) ...
+Plan: 46 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + app_security_group_id      = (known after apply)
+  + artifact_bucket_encryption = "AES256"
+  + artifact_bucket_name       = (known after apply)
+  + backup_schedule            = "disabled (vault only, no scheduled backups)"
+  + backup_vault_name          = "eawlz-dev-vault"
+  + ci_role_arn                = (known after apply)
+  + dashboard_name             = "eawlz-dev-overview"
+  + ec2_role_arn               = (known after apply)
+  + environment                = "dev"
+  + instance_count             = 0
+  + instance_ids               = []
+  + kms_encryption_mode        = "aws-managed"
+  + log_groups                 = [
+      + "/eawlz-dev/app",
+      + "/eawlz-dev/system",
+      + "/eawlz-dev/audit",
+    ]
+  + permission_boundary_arn    = (known after apply)
+  + private_subnet_ids         = [
+      + (known after apply),
+      + (known after apply),
+      + (known after apply),
+    ]
+  + public_subnet_ids          = [
+      + (known after apply),
+      + (known after apply),
+      + (known after apply),
+    ]
+  + ssm_session_hint           = "No instances created (instance_count = 0)."
+  + vpc_cidr                   = "10.10.0.0/16"
+  + vpc_id                     = (known after apply)
+  + zero_cost_mode             = true

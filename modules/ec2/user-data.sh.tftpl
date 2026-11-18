@@ -1,0 +1,68 @@
+#!/bin/bash
+# ---------------------------------------------------------------------------
+# Rendered by Terraform (modules/ec2/user-data.sh.tftpl)
+# Runs once per instance via cloud-init. Idempotent, no secrets embedded.
+#
+# Administrative access is exclusively through AWS Systems Manager Session
+# Manager. No SSH daemon configuration, no authorized_keys, no port 22.
+# ---------------------------------------------------------------------------
+set -euo pipefail
+
+exec > >(tee -a /var/log/eawlz-bootstrap.log) 2>&1
+
+ENVIRONMENT="${environment}"
+APP_PORT="${app_port}"
+LOG_GROUP="${log_group_name}"
+AWS_REGION_NAME="${aws_region}"
+
+echo "[eawlz] bootstrap start: environment=$${ENVIRONMENT} region=$${AWS_REGION_NAME}"
+
+# --- Base packages -----------------------------------------------------------
+if command -v dnf >/dev/null 2>&1; then
+  dnf -y update --security
+  dnf -y install amazon-cloudwatch-agent jq
+else
+  yum -y update --security
+  yum -y install amazon-cloudwatch-agent jq
+fi
+
+# --- Application runtime directory -------------------------------------------
+install -d -m 0755 /opt/eawlz /etc/eawlz
+
+cat > /etc/eawlz/app.env <<EOF
+ENVIRONMENT=$${ENVIRONMENT}
+APP_PORT=$${APP_PORT}
+LOG_GROUP=$${LOG_GROUP}
+AWS_REGION=$${AWS_REGION_NAME}
+EOF
+chmod 0640 /etc/eawlz/app.env
+
+# --- Ensure the SSM agent is running (management plane, no inbound ports) ----
+systemctl enable --now amazon-ssm-agent || echo "[eawlz] WARN: SSM agent not enabled"
+
+# --- CloudWatch agent configuration (logs only, no host metrics to save cost) -
+cat > /opt/aws/amazon-cloudwatch-agent/etc/eawlz.json <<EOF
+{
+  "agent": { "metrics_collection_interval": 60, "run_as_user": "root" },
+  "logs": {
+    "logs_collected": {
+      "files": {
+        "collect_list": [
+          {
+            "file_path": "/var/log/eawlz-bootstrap.log",
+            "log_group_name": "$${LOG_GROUP}",
+            "log_stream_name": "{instance_id}/bootstrap",
+            "retention_in_days": 14
+          }
+        ]
+      }
+    }
+  }
+}
+EOF
+
+/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+  -a fetch-config -m ec2 -s \
+  -c file:/opt/aws/amazon-cloudwatch-agent/etc/eawlz.json || echo "[eawlz] WARN: CloudWatch agent config failed"
+
+echo "[eawlz] bootstrap complete"

@@ -1,0 +1,4336 @@
+
+Report Summary
+
+┌──────────────────────────────────┬────────────────────────┬───────────────────┐
+│              Target              │          Type          │ Misconfigurations │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ .                                │ terraformplan-snapshot │        78         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ ../../modules/networking/main.tf │ terraformplan-snapshot │         0         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ ../../modules/s3/main.tf         │ terraformplan-snapshot │         0         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ bootstrap                        │       terraform        │        61         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ bootstrap/main.tf                │       terraform        │         0         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ environments/dev                 │       terraform        │        78         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ environments/production          │       terraform        │        78         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ environments/staging             │       terraform        │        78         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ examples/minimal-vpc             │       terraform        │        69         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ modules/networking/main.tf       │       terraform        │         0         │
+├──────────────────────────────────┼────────────────────────┼───────────────────┤
+│ modules/s3/main.tf               │       terraform        │         0         │
+└──────────────────────────────────┴────────────────────────┴───────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+. (terraformplan-snapshot)
+==========================
+Tests: 78 (SUCCESSES: 78, FAILURES: 0)
+Failures: 0 (LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+PASS: AWS-0008 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0008
+────────────────────────────────────────
+
+
+PASS: AWS-0009 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0009
+────────────────────────────────────────
+
+
+PASS: AWS-0017 (LOW): No issues found
+════════════════════════════════════════
+CloudWatch log groups are encrypted by default, however, to get the full benefit of controlling key rotation and other KMS aspects a KMS CMK should be used.
+
+
+See https://avd.aquasec.com/misconfig/aws-0017
+────────────────────────────────────────
+
+
+PASS: AWS-0019 (HIGH): No issues found
+════════════════════════════════════════
+Sources that aren't covered by the aggregator are not include in the configuration. The configuration aggregator should be configured with all_regions for the source.
+This will help limit the risk of any unmonitored configuration in regions that are thought to be unused.
+
+
+See https://avd.aquasec.com/misconfig/aws-0019
+────────────────────────────────────────
+
+
+PASS: AWS-0026 (HIGH): No issues found
+════════════════════════════════════════
+By enabling encryption on EBS volumes you protect the volume, the disk I/O and any derived snapshots from compromise if intercepted.
+
+
+See https://avd.aquasec.com/misconfig/aws-0026
+────────────────────────────────────────
+
+
+PASS: AWS-0027 (LOW): No issues found
+════════════════════════════════════════
+Encryption using AWS keys provides protection for your EBS volume. To increase control of the encryption and manage factors like rotation use customer managed keys.
+
+
+See https://avd.aquasec.com/misconfig/aws-0027
+────────────────────────────────────────
+
+
+PASS: AWS-0028 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0028
+────────────────────────────────────────
+
+
+PASS: AWS-0029 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0029
+────────────────────────────────────────
+
+
+PASS: AWS-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should prevent the reuse of passwords.
+
+The account password policy should be set to prevent using any of the last five used passwords.
+
+
+See https://avd.aquasec.com/misconfig/aws-0056
+────────────────────────────────────────
+
+
+PASS: AWS-0058 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one lowercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0058
+────────────────────────────────────────
+
+
+PASS: AWS-0059 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one number.
+
+
+See https://avd.aquasec.com/misconfig/aws-0059
+────────────────────────────────────────
+
+
+PASS: AWS-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including a symbol.
+
+
+See https://avd.aquasec.com/misconfig/aws-0060
+────────────────────────────────────────
+
+
+PASS: AWS-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+,
+
+IAM account password policies should ensure that passwords content including at least one uppercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0061
+────────────────────────────────────────
+
+
+PASS: AWS-0062 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should have a maximum age specified.
+
+The account password policy should be set to expire passwords after 90 days or less.
+
+
+See https://avd.aquasec.com/misconfig/aws-0062
+────────────────────────────────────────
+
+
+PASS: AWS-0063 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords have a minimum length.
+
+The account password policy should be set to enforce minimum password length of at least 14 characters.
+
+
+See https://avd.aquasec.com/misconfig/aws-0063
+────────────────────────────────────────
+
+
+PASS: AWS-0086 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should block public ACLs on buckets and any objects they contain. By blocking, PUTs with fail if the object has any public ACL a.
+
+
+See https://avd.aquasec.com/misconfig/aws-0086
+────────────────────────────────────────
+
+
+PASS: AWS-0087 (HIGH): No issues found
+════════════════════════════════════════
+S3 bucket policy should have block public policy to prevent users from putting a policy that enable public access.
+
+
+See https://avd.aquasec.com/misconfig/aws-0087
+────────────────────────────────────────
+
+
+PASS: AWS-0090 (MEDIUM): No issues found
+════════════════════════════════════════
+Versioning in Amazon S3 is a means of keeping multiple variants of an object in the same bucket.
+
+You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.
+
+With versioning you can recover more easily from both unintended user actions and application failures.
+
+When you enable versioning, also keep in mind the potential costs of storing noncurrent versions of objects. To help manage those costs, consider setting up an S3 Lifecycle configuration.
+
+
+See https://avd.aquasec.com/misconfig/aws-0090
+────────────────────────────────────────
+
+
+PASS: AWS-0091 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should ignore public ACLs on buckets and any objects they contain. By ignoring rather than blocking, PUT calls with public ACLs will still be applied but the ACL will be ignored.
+
+
+See https://avd.aquasec.com/misconfig/aws-0091
+────────────────────────────────────────
+
+
+PASS: AWS-0092 (HIGH): No issues found
+════════════════════════════════════════
+Buckets should not have ACLs that allow public access
+
+
+See https://avd.aquasec.com/misconfig/aws-0092
+────────────────────────────────────────
+
+
+PASS: AWS-0093 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should restrict public policies for the bucket. By enabling, the restrict_public_buckets, only the bucket owner and AWS Services can access if it has a public policy.
+
+
+See https://avd.aquasec.com/misconfig/aws-0093
+────────────────────────────────────────
+
+
+PASS: AWS-0094 (LOW): No issues found
+════════════════════════════════════════
+The "block public access" settings in S3 override individual policies that apply to a given bucket, meaning that all public access can be controlled in one central types for that bucket. It is therefore good practice to define these settings for each bucket in order to clearly define the public access that can be allowed for it.
+
+
+See https://avd.aquasec.com/misconfig/aws-0094
+────────────────────────────────────────
+
+
+PASS: AWS-0099 (LOW): No issues found
+════════════════════════════════════════
+Security groups should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0099
+────────────────────────────────────────
+
+
+PASS: AWS-0101 (HIGH): No issues found
+════════════════════════════════════════
+Default VPC does not have a lot of the critical security features that standard VPC comes with, new resources should not be created in the default VPC and it should not be present in the Terraform.
+
+
+See https://avd.aquasec.com/misconfig/aws-0101
+────────────────────────────────────────
+
+
+PASS: AWS-0102 (CRITICAL): No issues found
+════════════════════════════════════════
+Ensure access to specific required ports is allowed, and nothing else.
+
+
+See https://avd.aquasec.com/misconfig/aws-0102
+────────────────────────────────────────
+
+
+PASS: AWS-0105 (MEDIUM): No issues found
+════════════════════════════════════════
+The Network Access Control List (NACL) function provide stateless filtering of ingress and
+egress network traffic to AWS resources. It is recommended that no NACL allows
+unrestricted ingress access to remote server administration ports, such as SSH to port 22
+and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0105
+────────────────────────────────────────
+
+
+PASS: AWS-0107 (HIGH): No issues found
+════════════════════════════════════════
+Security groups provide stateful filtering of ingress and egress network traffic to AWS
+resources. It is recommended that no security group allows unrestricted ingress access to
+remote server administration ports, such as SSH to port 22 and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0107
+────────────────────────────────────────
+
+
+PASS: AWS-0122 (HIGH): No issues found
+════════════════════════════════════════
+When creating Launch Configurations, user data can be used for the initial configuration of the instance. User data must not contain any sensitive data.
+
+
+See https://avd.aquasec.com/misconfig/aws-0122
+────────────────────────────────────────
+
+
+PASS: AWS-0123 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM groups should be protected with multi factor authentication to add safe guards to password compromise.
+
+
+See https://avd.aquasec.com/misconfig/aws-0123
+────────────────────────────────────────
+
+
+PASS: AWS-0124 (LOW): No issues found
+════════════════════════════════════════
+Security group rules should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0124
+────────────────────────────────────────
+
+
+PASS: AWS-0129 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0129
+────────────────────────────────────────
+
+
+PASS: AWS-0130 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0130
+────────────────────────────────────────
+
+
+PASS: AWS-0131 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0131
+────────────────────────────────────────
+
+
+PASS: AWS-0140 (LOW): No issues found
+════════════════════════════════════════
+The root user has unrestricted access to all services and resources in an AWS account. We highly recommend that you avoid using the root user for daily tasks. Minimizing the use of the root user and adopting the principle of least privilege for access management reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.
+
+
+See https://avd.aquasec.com/misconfig/aws-0140
+────────────────────────────────────────
+
+
+PASS: AWS-0141 (CRITICAL): No issues found
+════════════════════════════════════════
+CIS recommends that all access keys be associated with the root user be removed. Removing access keys associated with the root user limits vectors that the account can be compromised by. Removing the root user access keys also encourages the creation and use of role-based accounts that are least privileged.
+
+
+See https://avd.aquasec.com/misconfig/aws-0141
+────────────────────────────────────────
+
+
+PASS: AWS-0143 (LOW): No issues found
+════════════════════════════════════════
+CIS recommends that you apply IAM policies directly to groups and roles but not users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grow. Reducing access management complexity might in turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+
+See https://avd.aquasec.com/misconfig/aws-0143
+────────────────────────────────────────
+
+
+PASS: AWS-0164 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0164
+────────────────────────────────────────
+
+
+PASS: AWS-0320 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that S3 buckets have DNS complaint bucket names.
+
+See https://avd.aquasec.com/misconfig/aws-0320
+────────────────────────────────────────
+
+
+PASS: AWS-0342 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures any IAM pass role attached to roles are flagged and warned.
+
+See https://avd.aquasec.com/misconfig/aws-0342
+────────────────────────────────────────
+
+
+PASS: AWS-0344 (LOW): No issues found
+════════════════════════════════════════
+AWS AMI data source should specify owners to avoid using unverified AMIs.
+The owners field helps ensure you're using AMIs from known and trusted sources.
+
+
+See https://avd.aquasec.com/misconfig/aws-0344
+────────────────────────────────────────
+
+
+PASS: AWS-0345 (HIGH): No issues found
+════════════════════════════════════════
+Ensure that the creation of the unrestricted S3 IAM policies is disallowed.
+
+See https://avd.aquasec.com/misconfig/aws-0345
+────────────────────────────────────────
+
+
+PASS: AWS-0346 (HIGH): No issues found
+════════════════════════════════════════
+Unnecessary access to S3 buckets can lead to unauthorized access or information disclosure.
+
+See https://avd.aquasec.com/misconfig/aws-0346
+────────────────────────────────────────
+
+
+PASS: AZU-0007 (HIGH): No issues found
+════════════════════════════════════════
+Storage container public access should be off. It can be configured for blobs only, containers and blobs or off entirely. The default is off, with no public access.
+Explicitly overriding publicAccess to anything other than off should be avoided.
+
+
+See https://avd.aquasec.com/misconfig/azu-0007
+────────────────────────────────────────
+
+
+PASS: AZU-0008 (HIGH): No issues found
+════════════════════════════════════════
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account.
+When you require secure transfer, any requests originating from an insecure connection are rejected.
+Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+
+See https://avd.aquasec.com/misconfig/azu-0008
+────────────────────────────────────────
+
+
+PASS: AZU-0009 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Requests are logged on a best-effort basis.
+
+
+See https://avd.aquasec.com/misconfig/azu-0009
+────────────────────────────────────────
+
+
+PASS: AZU-0010 (HIGH): No issues found
+════════════════════════════════════════
+Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules.
+To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules
+
+
+See https://avd.aquasec.com/misconfig/azu-0010
+────────────────────────────────────────
+
+
+PASS: AZU-0011 (CRITICAL): No issues found
+════════════════════════════════════════
+Azure Storage supports four versions of the TLS protocol: 1.0, 1.1, 1.2, and 1.3.
+Azure Storage uses TLS 1.2 or TLS 1.3 on public HTTPS endpoints, while TLS 1.0 and TLS 1.1 are still supported for backward compatibility.
+This check will warn if the minimum TLS version is set lower than TLS1_2. TLS1_2 and TLS1_3 are both allowed.
+
+
+See https://avd.aquasec.com/misconfig/azu-0011
+────────────────────────────────────────
+
+
+PASS: AZU-0012 (CRITICAL): No issues found
+════════════════════════════════════════
+The default_action for network rules should come into effect when no other rules are matched.
+The default action should be set to Deny.
+
+
+See https://avd.aquasec.com/misconfig/azu-0012
+────────────────────────────────────────
+
+
+PASS: AZU-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+Blob soft delete protects blob data from being accidentally or erroneously modified or deleted.
+When blob soft delete is enabled, deleted blobs are retained in the system for a specified retention period.
+During the retention period, you can restore a soft-deleted blob to its state at the time it was deleted.
+
+
+See https://avd.aquasec.com/misconfig/azu-0056
+────────────────────────────────────────
+
+
+PASS: AZU-0057 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Logging should be enabled for at least one storage service type.
+
+
+See https://avd.aquasec.com/misconfig/azu-0057
+────────────────────────────────────────
+
+
+PASS: AZU-0058 (LOW): No issues found
+════════════════════════════════════════
+Geo-redundant storage (GRS) replicates your data to a secondary region that is hundreds of miles away from the primary region.
+This provides an additional level of durability for your data in the event of a complete regional outage or a disaster.
+Options include GRS, RAGRS, GZRS, and RAGZRS for geo-redundancy.
+
+
+See https://avd.aquasec.com/misconfig/azu-0058
+────────────────────────────────────────
+
+
+PASS: AZU-0059 (HIGH): No issues found
+════════════════════════════════════════
+Storage accounts should enforce HTTPS for secure data transfer and use a minimum TLS version of 1.2 or higher.
+This ensures that logs and data stored in the storage account are encrypted in transit.
+Azure Storage encrypts all data at rest by default, but transport encryption is also critical.
+
+
+See https://avd.aquasec.com/misconfig/azu-0059
+────────────────────────────────────────
+
+
+PASS: AZU-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage accounts should use customer-managed keys (CMK) for encryption to provide additional control over the encryption keys.
+Customer-managed keys allow you to create, rotate, disable, and revoke access controls.
+They also provide greater flexibility to audit the encryption keys that are used to protect your data.
+
+
+See https://avd.aquasec.com/misconfig/azu-0060
+────────────────────────────────────────
+
+
+PASS: AZU-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+Infrastructure encryption provides an additional layer of encryption at the infrastructure level.
+When infrastructure encryption is enabled, data in the storage account is encrypted twice -
+once at the service level and once at the infrastructure level with two different encryption algorithms.
+This provides double encryption for enhanced security.
+
+
+See https://avd.aquasec.com/misconfig/azu-0061
+────────────────────────────────────────
+
+
+PASS: GCP-0027 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0027
+────────────────────────────────────────
+
+
+PASS: GCP-0029 (LOW): No issues found
+════════════════════════════════════════
+VPC flow logs record information about all traffic, which is a vital tool in reviewing anomalous traffic.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0029
+────────────────────────────────────────
+
+
+PASS: GCP-0030 (MEDIUM): No issues found
+════════════════════════════════════════
+Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0030
+────────────────────────────────────────
+
+
+PASS: GCP-0031 (HIGH): No issues found
+════════════════════════════════════════
+Instances should not be publicly exposed to the internet
+
+
+See https://avd.aquasec.com/misconfig/gcp-0031
+────────────────────────────────────────
+
+
+PASS: GCP-0032 (MEDIUM): No issues found
+════════════════════════════════════════
+When serial port access is enabled, the access is not governed by network security rules meaning the port can be exposed publicly.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0032
+────────────────────────────────────────
+
+
+PASS: GCP-0033 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0033
+────────────────────────────────────────
+
+
+PASS: GCP-0034 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0034
+────────────────────────────────────────
+
+
+PASS: GCP-0035 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to connect out to the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0035
+────────────────────────────────────────
+
+
+PASS: GCP-0036 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0036
+────────────────────────────────────────
+
+
+PASS: GCP-0037 (CRITICAL): No issues found
+════════════════════════════════════════
+Sensitive values such as raw encryption keys should not be included in your Terraform code, and should be stored securely by a secrets manager.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0037
+────────────────────────────────────────
+
+
+PASS: GCP-0039 (CRITICAL): No issues found
+════════════════════════════════════════
+TLS versions prior to 1.2 are outdated and insecure. You should use 1.2 as aminimum version.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0039
+────────────────────────────────────────
+
+
+PASS: GCP-0041 (MEDIUM): No issues found
+════════════════════════════════════════
+The virtual TPM provides numerous security measures to your VM.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0041
+────────────────────────────────────────
+
+
+PASS: GCP-0042 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0042
+────────────────────────────────────────
+
+
+PASS: GCP-0043 (HIGH): No issues found
+════════════════════════════════════════
+Disabling IP forwarding ensures the instance can only receive packets addressed to the instance and can only send packets with a source address of the instance.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0043
+────────────────────────────────────────
+
+
+PASS: GCP-0044 (CRITICAL): No issues found
+════════════════════════════════════════
+The default service account has full project access. Instances should instead be assigned the minimal access they need.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0044
+────────────────────────────────────────
+
+
+PASS: GCP-0045 (MEDIUM): No issues found
+════════════════════════════════════════
+Integrity monitoring helps you understand and make decisions about the state of your VM instances.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0045
+────────────────────────────────────────
+
+
+PASS: GCP-0067 (MEDIUM): No issues found
+════════════════════════════════════════
+Secure boot helps ensure that the system only runs authentic software.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0067
+────────────────────────────────────────
+
+
+PASS: GCP-0070 (HIGH): No issues found
+════════════════════════════════════════
+Firewall rules should restrict RDP (TCP/3389) access to specific IP ranges. Open RDP access can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0070
+────────────────────────────────────────
+
+
+PASS: GCP-0071 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should restrict SSH (TCP/22) access to specific IPs. Open SSH can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0071
+────────────────────────────────────────
+
+
+PASS: GCP-0072 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should not be wide open to all ports. Lock down rules to only required ports.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0072
+────────────────────────────────────────
+
+
+PASS: GCP-0073 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.
+The default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0073
+────────────────────────────────────────
+
+
+PASS: GCP-0074 (LOW): No issues found
+════════════════════════════════════════
+Firewall rules allowing broad port ranges can be risky. Ensure rules are as specific as possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0074
+────────────────────────────────────────
+
+
+PASS: GCP-0075 (LOW): No issues found
+════════════════════════════════════════
+Private Google Access allows instances in a subnet to reach Google APIs and services via internal IP, which should be enabled for private networks.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0075
+────────────────────────────────────────
+
+
+PASS: GCP-0076 (MEDIUM): No issues found
+════════════════════════════════════════
+Flow logs for subnets should be enabled to capture network traffic details for security analysis.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0076
+────────────────────────────────────────
+
+
+
+bootstrap (terraform)
+=====================
+Tests: 61 (SUCCESSES: 61, FAILURES: 0)
+Failures: 0 (LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+PASS: AWS-0019 (HIGH): No issues found
+════════════════════════════════════════
+Sources that aren't covered by the aggregator are not include in the configuration. The configuration aggregator should be configured with all_regions for the source.
+This will help limit the risk of any unmonitored configuration in regions that are thought to be unused.
+
+
+See https://avd.aquasec.com/misconfig/aws-0019
+────────────────────────────────────────
+
+
+PASS: AWS-0023 (HIGH): No issues found
+════════════════════════════════════════
+Data can be freely read if compromised. Amazon DynamoDB Accelerator (DAX) encryption at rest provides an additional layer of data protection by helping secure your data from unauthorized access to the underlying storage.
+
+
+See https://avd.aquasec.com/misconfig/aws-0023
+────────────────────────────────────────
+
+
+PASS: AWS-0024 (MEDIUM): No issues found
+════════════════════════════════════════
+DynamoDB tables should be protected against accidentally or malicious write/delete actions by ensuring that there is adequate protection.
+By enabling point-in-time-recovery you can restore to a known point in the event of loss of data.
+
+
+See https://avd.aquasec.com/misconfig/aws-0024
+────────────────────────────────────────
+
+
+PASS: AWS-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should prevent the reuse of passwords.
+
+The account password policy should be set to prevent using any of the last five used passwords.
+
+
+See https://avd.aquasec.com/misconfig/aws-0056
+────────────────────────────────────────
+
+
+PASS: AWS-0058 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one lowercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0058
+────────────────────────────────────────
+
+
+PASS: AWS-0059 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one number.
+
+
+See https://avd.aquasec.com/misconfig/aws-0059
+────────────────────────────────────────
+
+
+PASS: AWS-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including a symbol.
+
+
+See https://avd.aquasec.com/misconfig/aws-0060
+────────────────────────────────────────
+
+
+PASS: AWS-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+,
+
+IAM account password policies should ensure that passwords content including at least one uppercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0061
+────────────────────────────────────────
+
+
+PASS: AWS-0062 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should have a maximum age specified.
+
+The account password policy should be set to expire passwords after 90 days or less.
+
+
+See https://avd.aquasec.com/misconfig/aws-0062
+────────────────────────────────────────
+
+
+PASS: AWS-0063 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords have a minimum length.
+
+The account password policy should be set to enforce minimum password length of at least 14 characters.
+
+
+See https://avd.aquasec.com/misconfig/aws-0063
+────────────────────────────────────────
+
+
+PASS: AWS-0086 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should block public ACLs on buckets and any objects they contain. By blocking, PUTs with fail if the object has any public ACL a.
+
+
+See https://avd.aquasec.com/misconfig/aws-0086
+────────────────────────────────────────
+
+
+PASS: AWS-0087 (HIGH): No issues found
+════════════════════════════════════════
+S3 bucket policy should have block public policy to prevent users from putting a policy that enable public access.
+
+
+See https://avd.aquasec.com/misconfig/aws-0087
+────────────────────────────────────────
+
+
+PASS: AWS-0090 (MEDIUM): No issues found
+════════════════════════════════════════
+Versioning in Amazon S3 is a means of keeping multiple variants of an object in the same bucket.
+
+You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.
+
+With versioning you can recover more easily from both unintended user actions and application failures.
+
+When you enable versioning, also keep in mind the potential costs of storing noncurrent versions of objects. To help manage those costs, consider setting up an S3 Lifecycle configuration.
+
+
+See https://avd.aquasec.com/misconfig/aws-0090
+────────────────────────────────────────
+
+
+PASS: AWS-0091 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should ignore public ACLs on buckets and any objects they contain. By ignoring rather than blocking, PUT calls with public ACLs will still be applied but the ACL will be ignored.
+
+
+See https://avd.aquasec.com/misconfig/aws-0091
+────────────────────────────────────────
+
+
+PASS: AWS-0092 (HIGH): No issues found
+════════════════════════════════════════
+Buckets should not have ACLs that allow public access
+
+
+See https://avd.aquasec.com/misconfig/aws-0092
+────────────────────────────────────────
+
+
+PASS: AWS-0093 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should restrict public policies for the bucket. By enabling, the restrict_public_buckets, only the bucket owner and AWS Services can access if it has a public policy.
+
+
+See https://avd.aquasec.com/misconfig/aws-0093
+────────────────────────────────────────
+
+
+PASS: AWS-0094 (LOW): No issues found
+════════════════════════════════════════
+The "block public access" settings in S3 override individual policies that apply to a given bucket, meaning that all public access can be controlled in one central types for that bucket. It is therefore good practice to define these settings for each bucket in order to clearly define the public access that can be allowed for it.
+
+
+See https://avd.aquasec.com/misconfig/aws-0094
+────────────────────────────────────────
+
+
+PASS: AWS-0123 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM groups should be protected with multi factor authentication to add safe guards to password compromise.
+
+
+See https://avd.aquasec.com/misconfig/aws-0123
+────────────────────────────────────────
+
+
+PASS: AWS-0140 (LOW): No issues found
+════════════════════════════════════════
+The root user has unrestricted access to all services and resources in an AWS account. We highly recommend that you avoid using the root user for daily tasks. Minimizing the use of the root user and adopting the principle of least privilege for access management reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.
+
+
+See https://avd.aquasec.com/misconfig/aws-0140
+────────────────────────────────────────
+
+
+PASS: AWS-0141 (CRITICAL): No issues found
+════════════════════════════════════════
+CIS recommends that all access keys be associated with the root user be removed. Removing access keys associated with the root user limits vectors that the account can be compromised by. Removing the root user access keys also encourages the creation and use of role-based accounts that are least privileged.
+
+
+See https://avd.aquasec.com/misconfig/aws-0141
+────────────────────────────────────────
+
+
+PASS: AWS-0143 (LOW): No issues found
+════════════════════════════════════════
+CIS recommends that you apply IAM policies directly to groups and roles but not users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grow. Reducing access management complexity might in turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+
+See https://avd.aquasec.com/misconfig/aws-0143
+────────────────────────────────────────
+
+
+PASS: AWS-0320 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that S3 buckets have DNS complaint bucket names.
+
+See https://avd.aquasec.com/misconfig/aws-0320
+────────────────────────────────────────
+
+
+PASS: AWS-0342 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures any IAM pass role attached to roles are flagged and warned.
+
+See https://avd.aquasec.com/misconfig/aws-0342
+────────────────────────────────────────
+
+
+PASS: AWS-0345 (HIGH): No issues found
+════════════════════════════════════════
+Ensure that the creation of the unrestricted S3 IAM policies is disallowed.
+
+See https://avd.aquasec.com/misconfig/aws-0345
+────────────────────────────────────────
+
+
+PASS: AWS-0346 (HIGH): No issues found
+════════════════════════════════════════
+Unnecessary access to S3 buckets can lead to unauthorized access or information disclosure.
+
+See https://avd.aquasec.com/misconfig/aws-0346
+────────────────────────────────────────
+
+
+PASS: AZU-0007 (HIGH): No issues found
+════════════════════════════════════════
+Storage container public access should be off. It can be configured for blobs only, containers and blobs or off entirely. The default is off, with no public access.
+Explicitly overriding publicAccess to anything other than off should be avoided.
+
+
+See https://avd.aquasec.com/misconfig/azu-0007
+────────────────────────────────────────
+
+
+PASS: AZU-0008 (HIGH): No issues found
+════════════════════════════════════════
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account.
+When you require secure transfer, any requests originating from an insecure connection are rejected.
+Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+
+See https://avd.aquasec.com/misconfig/azu-0008
+────────────────────────────────────────
+
+
+PASS: AZU-0009 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Requests are logged on a best-effort basis.
+
+
+See https://avd.aquasec.com/misconfig/azu-0009
+────────────────────────────────────────
+
+
+PASS: AZU-0010 (HIGH): No issues found
+════════════════════════════════════════
+Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules.
+To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules
+
+
+See https://avd.aquasec.com/misconfig/azu-0010
+────────────────────────────────────────
+
+
+PASS: AZU-0011 (CRITICAL): No issues found
+════════════════════════════════════════
+Azure Storage supports four versions of the TLS protocol: 1.0, 1.1, 1.2, and 1.3.
+Azure Storage uses TLS 1.2 or TLS 1.3 on public HTTPS endpoints, while TLS 1.0 and TLS 1.1 are still supported for backward compatibility.
+This check will warn if the minimum TLS version is set lower than TLS1_2. TLS1_2 and TLS1_3 are both allowed.
+
+
+See https://avd.aquasec.com/misconfig/azu-0011
+────────────────────────────────────────
+
+
+PASS: AZU-0012 (CRITICAL): No issues found
+════════════════════════════════════════
+The default_action for network rules should come into effect when no other rules are matched.
+The default action should be set to Deny.
+
+
+See https://avd.aquasec.com/misconfig/azu-0012
+────────────────────────────────────────
+
+
+PASS: AZU-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+Blob soft delete protects blob data from being accidentally or erroneously modified or deleted.
+When blob soft delete is enabled, deleted blobs are retained in the system for a specified retention period.
+During the retention period, you can restore a soft-deleted blob to its state at the time it was deleted.
+
+
+See https://avd.aquasec.com/misconfig/azu-0056
+────────────────────────────────────────
+
+
+PASS: AZU-0057 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Logging should be enabled for at least one storage service type.
+
+
+See https://avd.aquasec.com/misconfig/azu-0057
+────────────────────────────────────────
+
+
+PASS: AZU-0058 (LOW): No issues found
+════════════════════════════════════════
+Geo-redundant storage (GRS) replicates your data to a secondary region that is hundreds of miles away from the primary region.
+This provides an additional level of durability for your data in the event of a complete regional outage or a disaster.
+Options include GRS, RAGRS, GZRS, and RAGZRS for geo-redundancy.
+
+
+See https://avd.aquasec.com/misconfig/azu-0058
+────────────────────────────────────────
+
+
+PASS: AZU-0059 (HIGH): No issues found
+════════════════════════════════════════
+Storage accounts should enforce HTTPS for secure data transfer and use a minimum TLS version of 1.2 or higher.
+This ensures that logs and data stored in the storage account are encrypted in transit.
+Azure Storage encrypts all data at rest by default, but transport encryption is also critical.
+
+
+See https://avd.aquasec.com/misconfig/azu-0059
+────────────────────────────────────────
+
+
+PASS: AZU-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage accounts should use customer-managed keys (CMK) for encryption to provide additional control over the encryption keys.
+Customer-managed keys allow you to create, rotate, disable, and revoke access controls.
+They also provide greater flexibility to audit the encryption keys that are used to protect your data.
+
+
+See https://avd.aquasec.com/misconfig/azu-0060
+────────────────────────────────────────
+
+
+PASS: AZU-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+Infrastructure encryption provides an additional layer of encryption at the infrastructure level.
+When infrastructure encryption is enabled, data in the storage account is encrypted twice -
+once at the service level and once at the infrastructure level with two different encryption algorithms.
+This provides double encryption for enhanced security.
+
+
+See https://avd.aquasec.com/misconfig/azu-0061
+────────────────────────────────────────
+
+
+PASS: GCP-0027 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0027
+────────────────────────────────────────
+
+
+PASS: GCP-0029 (LOW): No issues found
+════════════════════════════════════════
+VPC flow logs record information about all traffic, which is a vital tool in reviewing anomalous traffic.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0029
+────────────────────────────────────────
+
+
+PASS: GCP-0030 (MEDIUM): No issues found
+════════════════════════════════════════
+Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0030
+────────────────────────────────────────
+
+
+PASS: GCP-0031 (HIGH): No issues found
+════════════════════════════════════════
+Instances should not be publicly exposed to the internet
+
+
+See https://avd.aquasec.com/misconfig/gcp-0031
+────────────────────────────────────────
+
+
+PASS: GCP-0032 (MEDIUM): No issues found
+════════════════════════════════════════
+When serial port access is enabled, the access is not governed by network security rules meaning the port can be exposed publicly.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0032
+────────────────────────────────────────
+
+
+PASS: GCP-0033 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0033
+────────────────────────────────────────
+
+
+PASS: GCP-0034 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0034
+────────────────────────────────────────
+
+
+PASS: GCP-0035 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to connect out to the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0035
+────────────────────────────────────────
+
+
+PASS: GCP-0036 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0036
+────────────────────────────────────────
+
+
+PASS: GCP-0037 (CRITICAL): No issues found
+════════════════════════════════════════
+Sensitive values such as raw encryption keys should not be included in your Terraform code, and should be stored securely by a secrets manager.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0037
+────────────────────────────────────────
+
+
+PASS: GCP-0039 (CRITICAL): No issues found
+════════════════════════════════════════
+TLS versions prior to 1.2 are outdated and insecure. You should use 1.2 as aminimum version.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0039
+────────────────────────────────────────
+
+
+PASS: GCP-0041 (MEDIUM): No issues found
+════════════════════════════════════════
+The virtual TPM provides numerous security measures to your VM.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0041
+────────────────────────────────────────
+
+
+PASS: GCP-0042 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0042
+────────────────────────────────────────
+
+
+PASS: GCP-0043 (HIGH): No issues found
+════════════════════════════════════════
+Disabling IP forwarding ensures the instance can only receive packets addressed to the instance and can only send packets with a source address of the instance.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0043
+────────────────────────────────────────
+
+
+PASS: GCP-0044 (CRITICAL): No issues found
+════════════════════════════════════════
+The default service account has full project access. Instances should instead be assigned the minimal access they need.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0044
+────────────────────────────────────────
+
+
+PASS: GCP-0045 (MEDIUM): No issues found
+════════════════════════════════════════
+Integrity monitoring helps you understand and make decisions about the state of your VM instances.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0045
+────────────────────────────────────────
+
+
+PASS: GCP-0067 (MEDIUM): No issues found
+════════════════════════════════════════
+Secure boot helps ensure that the system only runs authentic software.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0067
+────────────────────────────────────────
+
+
+PASS: GCP-0070 (HIGH): No issues found
+════════════════════════════════════════
+Firewall rules should restrict RDP (TCP/3389) access to specific IP ranges. Open RDP access can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0070
+────────────────────────────────────────
+
+
+PASS: GCP-0071 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should restrict SSH (TCP/22) access to specific IPs. Open SSH can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0071
+────────────────────────────────────────
+
+
+PASS: GCP-0072 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should not be wide open to all ports. Lock down rules to only required ports.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0072
+────────────────────────────────────────
+
+
+PASS: GCP-0073 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.
+The default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0073
+────────────────────────────────────────
+
+
+PASS: GCP-0074 (LOW): No issues found
+════════════════════════════════════════
+Firewall rules allowing broad port ranges can be risky. Ensure rules are as specific as possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0074
+────────────────────────────────────────
+
+
+PASS: GCP-0075 (LOW): No issues found
+════════════════════════════════════════
+Private Google Access allows instances in a subnet to reach Google APIs and services via internal IP, which should be enabled for private networks.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0075
+────────────────────────────────────────
+
+
+PASS: GCP-0076 (MEDIUM): No issues found
+════════════════════════════════════════
+Flow logs for subnets should be enabled to capture network traffic details for security analysis.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0076
+────────────────────────────────────────
+
+
+
+environments/dev (terraform)
+============================
+Tests: 78 (SUCCESSES: 78, FAILURES: 0)
+Failures: 0 (LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+PASS: AWS-0008 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0008
+────────────────────────────────────────
+
+
+PASS: AWS-0009 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0009
+────────────────────────────────────────
+
+
+PASS: AWS-0017 (LOW): No issues found
+════════════════════════════════════════
+CloudWatch log groups are encrypted by default, however, to get the full benefit of controlling key rotation and other KMS aspects a KMS CMK should be used.
+
+
+See https://avd.aquasec.com/misconfig/aws-0017
+────────────────────────────────────────
+
+
+PASS: AWS-0019 (HIGH): No issues found
+════════════════════════════════════════
+Sources that aren't covered by the aggregator are not include in the configuration. The configuration aggregator should be configured with all_regions for the source.
+This will help limit the risk of any unmonitored configuration in regions that are thought to be unused.
+
+
+See https://avd.aquasec.com/misconfig/aws-0019
+────────────────────────────────────────
+
+
+PASS: AWS-0026 (HIGH): No issues found
+════════════════════════════════════════
+By enabling encryption on EBS volumes you protect the volume, the disk I/O and any derived snapshots from compromise if intercepted.
+
+
+See https://avd.aquasec.com/misconfig/aws-0026
+────────────────────────────────────────
+
+
+PASS: AWS-0027 (LOW): No issues found
+════════════════════════════════════════
+Encryption using AWS keys provides protection for your EBS volume. To increase control of the encryption and manage factors like rotation use customer managed keys.
+
+
+See https://avd.aquasec.com/misconfig/aws-0027
+────────────────────────────────────────
+
+
+PASS: AWS-0028 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0028
+────────────────────────────────────────
+
+
+PASS: AWS-0029 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0029
+────────────────────────────────────────
+
+
+PASS: AWS-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should prevent the reuse of passwords.
+
+The account password policy should be set to prevent using any of the last five used passwords.
+
+
+See https://avd.aquasec.com/misconfig/aws-0056
+────────────────────────────────────────
+
+
+PASS: AWS-0058 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one lowercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0058
+────────────────────────────────────────
+
+
+PASS: AWS-0059 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one number.
+
+
+See https://avd.aquasec.com/misconfig/aws-0059
+────────────────────────────────────────
+
+
+PASS: AWS-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including a symbol.
+
+
+See https://avd.aquasec.com/misconfig/aws-0060
+────────────────────────────────────────
+
+
+PASS: AWS-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+,
+
+IAM account password policies should ensure that passwords content including at least one uppercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0061
+────────────────────────────────────────
+
+
+PASS: AWS-0062 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should have a maximum age specified.
+
+The account password policy should be set to expire passwords after 90 days or less.
+
+
+See https://avd.aquasec.com/misconfig/aws-0062
+────────────────────────────────────────
+
+
+PASS: AWS-0063 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords have a minimum length.
+
+The account password policy should be set to enforce minimum password length of at least 14 characters.
+
+
+See https://avd.aquasec.com/misconfig/aws-0063
+────────────────────────────────────────
+
+
+PASS: AWS-0086 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should block public ACLs on buckets and any objects they contain. By blocking, PUTs with fail if the object has any public ACL a.
+
+
+See https://avd.aquasec.com/misconfig/aws-0086
+────────────────────────────────────────
+
+
+PASS: AWS-0087 (HIGH): No issues found
+════════════════════════════════════════
+S3 bucket policy should have block public policy to prevent users from putting a policy that enable public access.
+
+
+See https://avd.aquasec.com/misconfig/aws-0087
+────────────────────────────────────────
+
+
+PASS: AWS-0090 (MEDIUM): No issues found
+════════════════════════════════════════
+Versioning in Amazon S3 is a means of keeping multiple variants of an object in the same bucket.
+
+You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.
+
+With versioning you can recover more easily from both unintended user actions and application failures.
+
+When you enable versioning, also keep in mind the potential costs of storing noncurrent versions of objects. To help manage those costs, consider setting up an S3 Lifecycle configuration.
+
+
+See https://avd.aquasec.com/misconfig/aws-0090
+────────────────────────────────────────
+
+
+PASS: AWS-0091 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should ignore public ACLs on buckets and any objects they contain. By ignoring rather than blocking, PUT calls with public ACLs will still be applied but the ACL will be ignored.
+
+
+See https://avd.aquasec.com/misconfig/aws-0091
+────────────────────────────────────────
+
+
+PASS: AWS-0092 (HIGH): No issues found
+════════════════════════════════════════
+Buckets should not have ACLs that allow public access
+
+
+See https://avd.aquasec.com/misconfig/aws-0092
+────────────────────────────────────────
+
+
+PASS: AWS-0093 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should restrict public policies for the bucket. By enabling, the restrict_public_buckets, only the bucket owner and AWS Services can access if it has a public policy.
+
+
+See https://avd.aquasec.com/misconfig/aws-0093
+────────────────────────────────────────
+
+
+PASS: AWS-0094 (LOW): No issues found
+════════════════════════════════════════
+The "block public access" settings in S3 override individual policies that apply to a given bucket, meaning that all public access can be controlled in one central types for that bucket. It is therefore good practice to define these settings for each bucket in order to clearly define the public access that can be allowed for it.
+
+
+See https://avd.aquasec.com/misconfig/aws-0094
+────────────────────────────────────────
+
+
+PASS: AWS-0099 (LOW): No issues found
+════════════════════════════════════════
+Security groups should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0099
+────────────────────────────────────────
+
+
+PASS: AWS-0101 (HIGH): No issues found
+════════════════════════════════════════
+Default VPC does not have a lot of the critical security features that standard VPC comes with, new resources should not be created in the default VPC and it should not be present in the Terraform.
+
+
+See https://avd.aquasec.com/misconfig/aws-0101
+────────────────────────────────────────
+
+
+PASS: AWS-0102 (CRITICAL): No issues found
+════════════════════════════════════════
+Ensure access to specific required ports is allowed, and nothing else.
+
+
+See https://avd.aquasec.com/misconfig/aws-0102
+────────────────────────────────────────
+
+
+PASS: AWS-0105 (MEDIUM): No issues found
+════════════════════════════════════════
+The Network Access Control List (NACL) function provide stateless filtering of ingress and
+egress network traffic to AWS resources. It is recommended that no NACL allows
+unrestricted ingress access to remote server administration ports, such as SSH to port 22
+and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0105
+────────────────────────────────────────
+
+
+PASS: AWS-0107 (HIGH): No issues found
+════════════════════════════════════════
+Security groups provide stateful filtering of ingress and egress network traffic to AWS
+resources. It is recommended that no security group allows unrestricted ingress access to
+remote server administration ports, such as SSH to port 22 and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0107
+────────────────────────────────────────
+
+
+PASS: AWS-0122 (HIGH): No issues found
+════════════════════════════════════════
+When creating Launch Configurations, user data can be used for the initial configuration of the instance. User data must not contain any sensitive data.
+
+
+See https://avd.aquasec.com/misconfig/aws-0122
+────────────────────────────────────────
+
+
+PASS: AWS-0123 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM groups should be protected with multi factor authentication to add safe guards to password compromise.
+
+
+See https://avd.aquasec.com/misconfig/aws-0123
+────────────────────────────────────────
+
+
+PASS: AWS-0124 (LOW): No issues found
+════════════════════════════════════════
+Security group rules should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0124
+────────────────────────────────────────
+
+
+PASS: AWS-0129 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0129
+────────────────────────────────────────
+
+
+PASS: AWS-0130 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0130
+────────────────────────────────────────
+
+
+PASS: AWS-0131 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0131
+────────────────────────────────────────
+
+
+PASS: AWS-0140 (LOW): No issues found
+════════════════════════════════════════
+The root user has unrestricted access to all services and resources in an AWS account. We highly recommend that you avoid using the root user for daily tasks. Minimizing the use of the root user and adopting the principle of least privilege for access management reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.
+
+
+See https://avd.aquasec.com/misconfig/aws-0140
+────────────────────────────────────────
+
+
+PASS: AWS-0141 (CRITICAL): No issues found
+════════════════════════════════════════
+CIS recommends that all access keys be associated with the root user be removed. Removing access keys associated with the root user limits vectors that the account can be compromised by. Removing the root user access keys also encourages the creation and use of role-based accounts that are least privileged.
+
+
+See https://avd.aquasec.com/misconfig/aws-0141
+────────────────────────────────────────
+
+
+PASS: AWS-0143 (LOW): No issues found
+════════════════════════════════════════
+CIS recommends that you apply IAM policies directly to groups and roles but not users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grow. Reducing access management complexity might in turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+
+See https://avd.aquasec.com/misconfig/aws-0143
+────────────────────────────────────────
+
+
+PASS: AWS-0164 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0164
+────────────────────────────────────────
+
+
+PASS: AWS-0320 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that S3 buckets have DNS complaint bucket names.
+
+See https://avd.aquasec.com/misconfig/aws-0320
+────────────────────────────────────────
+
+
+PASS: AWS-0342 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures any IAM pass role attached to roles are flagged and warned.
+
+See https://avd.aquasec.com/misconfig/aws-0342
+────────────────────────────────────────
+
+
+PASS: AWS-0344 (LOW): No issues found
+════════════════════════════════════════
+AWS AMI data source should specify owners to avoid using unverified AMIs.
+The owners field helps ensure you're using AMIs from known and trusted sources.
+
+
+See https://avd.aquasec.com/misconfig/aws-0344
+────────────────────────────────────────
+
+
+PASS: AWS-0345 (HIGH): No issues found
+════════════════════════════════════════
+Ensure that the creation of the unrestricted S3 IAM policies is disallowed.
+
+See https://avd.aquasec.com/misconfig/aws-0345
+────────────────────────────────────────
+
+
+PASS: AWS-0346 (HIGH): No issues found
+════════════════════════════════════════
+Unnecessary access to S3 buckets can lead to unauthorized access or information disclosure.
+
+See https://avd.aquasec.com/misconfig/aws-0346
+────────────────────────────────────────
+
+
+PASS: AZU-0007 (HIGH): No issues found
+════════════════════════════════════════
+Storage container public access should be off. It can be configured for blobs only, containers and blobs or off entirely. The default is off, with no public access.
+Explicitly overriding publicAccess to anything other than off should be avoided.
+
+
+See https://avd.aquasec.com/misconfig/azu-0007
+────────────────────────────────────────
+
+
+PASS: AZU-0008 (HIGH): No issues found
+════════════════════════════════════════
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account.
+When you require secure transfer, any requests originating from an insecure connection are rejected.
+Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+
+See https://avd.aquasec.com/misconfig/azu-0008
+────────────────────────────────────────
+
+
+PASS: AZU-0009 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Requests are logged on a best-effort basis.
+
+
+See https://avd.aquasec.com/misconfig/azu-0009
+────────────────────────────────────────
+
+
+PASS: AZU-0010 (HIGH): No issues found
+════════════════════════════════════════
+Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules.
+To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules
+
+
+See https://avd.aquasec.com/misconfig/azu-0010
+────────────────────────────────────────
+
+
+PASS: AZU-0011 (CRITICAL): No issues found
+════════════════════════════════════════
+Azure Storage supports four versions of the TLS protocol: 1.0, 1.1, 1.2, and 1.3.
+Azure Storage uses TLS 1.2 or TLS 1.3 on public HTTPS endpoints, while TLS 1.0 and TLS 1.1 are still supported for backward compatibility.
+This check will warn if the minimum TLS version is set lower than TLS1_2. TLS1_2 and TLS1_3 are both allowed.
+
+
+See https://avd.aquasec.com/misconfig/azu-0011
+────────────────────────────────────────
+
+
+PASS: AZU-0012 (CRITICAL): No issues found
+════════════════════════════════════════
+The default_action for network rules should come into effect when no other rules are matched.
+The default action should be set to Deny.
+
+
+See https://avd.aquasec.com/misconfig/azu-0012
+────────────────────────────────────────
+
+
+PASS: AZU-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+Blob soft delete protects blob data from being accidentally or erroneously modified or deleted.
+When blob soft delete is enabled, deleted blobs are retained in the system for a specified retention period.
+During the retention period, you can restore a soft-deleted blob to its state at the time it was deleted.
+
+
+See https://avd.aquasec.com/misconfig/azu-0056
+────────────────────────────────────────
+
+
+PASS: AZU-0057 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Logging should be enabled for at least one storage service type.
+
+
+See https://avd.aquasec.com/misconfig/azu-0057
+────────────────────────────────────────
+
+
+PASS: AZU-0058 (LOW): No issues found
+════════════════════════════════════════
+Geo-redundant storage (GRS) replicates your data to a secondary region that is hundreds of miles away from the primary region.
+This provides an additional level of durability for your data in the event of a complete regional outage or a disaster.
+Options include GRS, RAGRS, GZRS, and RAGZRS for geo-redundancy.
+
+
+See https://avd.aquasec.com/misconfig/azu-0058
+────────────────────────────────────────
+
+
+PASS: AZU-0059 (HIGH): No issues found
+════════════════════════════════════════
+Storage accounts should enforce HTTPS for secure data transfer and use a minimum TLS version of 1.2 or higher.
+This ensures that logs and data stored in the storage account are encrypted in transit.
+Azure Storage encrypts all data at rest by default, but transport encryption is also critical.
+
+
+See https://avd.aquasec.com/misconfig/azu-0059
+────────────────────────────────────────
+
+
+PASS: AZU-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage accounts should use customer-managed keys (CMK) for encryption to provide additional control over the encryption keys.
+Customer-managed keys allow you to create, rotate, disable, and revoke access controls.
+They also provide greater flexibility to audit the encryption keys that are used to protect your data.
+
+
+See https://avd.aquasec.com/misconfig/azu-0060
+────────────────────────────────────────
+
+
+PASS: AZU-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+Infrastructure encryption provides an additional layer of encryption at the infrastructure level.
+When infrastructure encryption is enabled, data in the storage account is encrypted twice -
+once at the service level and once at the infrastructure level with two different encryption algorithms.
+This provides double encryption for enhanced security.
+
+
+See https://avd.aquasec.com/misconfig/azu-0061
+────────────────────────────────────────
+
+
+PASS: GCP-0027 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0027
+────────────────────────────────────────
+
+
+PASS: GCP-0029 (LOW): No issues found
+════════════════════════════════════════
+VPC flow logs record information about all traffic, which is a vital tool in reviewing anomalous traffic.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0029
+────────────────────────────────────────
+
+
+PASS: GCP-0030 (MEDIUM): No issues found
+════════════════════════════════════════
+Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0030
+────────────────────────────────────────
+
+
+PASS: GCP-0031 (HIGH): No issues found
+════════════════════════════════════════
+Instances should not be publicly exposed to the internet
+
+
+See https://avd.aquasec.com/misconfig/gcp-0031
+────────────────────────────────────────
+
+
+PASS: GCP-0032 (MEDIUM): No issues found
+════════════════════════════════════════
+When serial port access is enabled, the access is not governed by network security rules meaning the port can be exposed publicly.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0032
+────────────────────────────────────────
+
+
+PASS: GCP-0033 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0033
+────────────────────────────────────────
+
+
+PASS: GCP-0034 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0034
+────────────────────────────────────────
+
+
+PASS: GCP-0035 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to connect out to the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0035
+────────────────────────────────────────
+
+
+PASS: GCP-0036 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0036
+────────────────────────────────────────
+
+
+PASS: GCP-0037 (CRITICAL): No issues found
+════════════════════════════════════════
+Sensitive values such as raw encryption keys should not be included in your Terraform code, and should be stored securely by a secrets manager.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0037
+────────────────────────────────────────
+
+
+PASS: GCP-0039 (CRITICAL): No issues found
+════════════════════════════════════════
+TLS versions prior to 1.2 are outdated and insecure. You should use 1.2 as aminimum version.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0039
+────────────────────────────────────────
+
+
+PASS: GCP-0041 (MEDIUM): No issues found
+════════════════════════════════════════
+The virtual TPM provides numerous security measures to your VM.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0041
+────────────────────────────────────────
+
+
+PASS: GCP-0042 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0042
+────────────────────────────────────────
+
+
+PASS: GCP-0043 (HIGH): No issues found
+════════════════════════════════════════
+Disabling IP forwarding ensures the instance can only receive packets addressed to the instance and can only send packets with a source address of the instance.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0043
+────────────────────────────────────────
+
+
+PASS: GCP-0044 (CRITICAL): No issues found
+════════════════════════════════════════
+The default service account has full project access. Instances should instead be assigned the minimal access they need.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0044
+────────────────────────────────────────
+
+
+PASS: GCP-0045 (MEDIUM): No issues found
+════════════════════════════════════════
+Integrity monitoring helps you understand and make decisions about the state of your VM instances.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0045
+────────────────────────────────────────
+
+
+PASS: GCP-0067 (MEDIUM): No issues found
+════════════════════════════════════════
+Secure boot helps ensure that the system only runs authentic software.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0067
+────────────────────────────────────────
+
+
+PASS: GCP-0070 (HIGH): No issues found
+════════════════════════════════════════
+Firewall rules should restrict RDP (TCP/3389) access to specific IP ranges. Open RDP access can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0070
+────────────────────────────────────────
+
+
+PASS: GCP-0071 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should restrict SSH (TCP/22) access to specific IPs. Open SSH can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0071
+────────────────────────────────────────
+
+
+PASS: GCP-0072 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should not be wide open to all ports. Lock down rules to only required ports.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0072
+────────────────────────────────────────
+
+
+PASS: GCP-0073 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.
+The default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0073
+────────────────────────────────────────
+
+
+PASS: GCP-0074 (LOW): No issues found
+════════════════════════════════════════
+Firewall rules allowing broad port ranges can be risky. Ensure rules are as specific as possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0074
+────────────────────────────────────────
+
+
+PASS: GCP-0075 (LOW): No issues found
+════════════════════════════════════════
+Private Google Access allows instances in a subnet to reach Google APIs and services via internal IP, which should be enabled for private networks.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0075
+────────────────────────────────────────
+
+
+PASS: GCP-0076 (MEDIUM): No issues found
+════════════════════════════════════════
+Flow logs for subnets should be enabled to capture network traffic details for security analysis.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0076
+────────────────────────────────────────
+
+
+
+environments/production (terraform)
+===================================
+Tests: 78 (SUCCESSES: 78, FAILURES: 0)
+Failures: 0 (LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+PASS: AWS-0008 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0008
+────────────────────────────────────────
+
+
+PASS: AWS-0009 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0009
+────────────────────────────────────────
+
+
+PASS: AWS-0017 (LOW): No issues found
+════════════════════════════════════════
+CloudWatch log groups are encrypted by default, however, to get the full benefit of controlling key rotation and other KMS aspects a KMS CMK should be used.
+
+
+See https://avd.aquasec.com/misconfig/aws-0017
+────────────────────────────────────────
+
+
+PASS: AWS-0019 (HIGH): No issues found
+════════════════════════════════════════
+Sources that aren't covered by the aggregator are not include in the configuration. The configuration aggregator should be configured with all_regions for the source.
+This will help limit the risk of any unmonitored configuration in regions that are thought to be unused.
+
+
+See https://avd.aquasec.com/misconfig/aws-0019
+────────────────────────────────────────
+
+
+PASS: AWS-0026 (HIGH): No issues found
+════════════════════════════════════════
+By enabling encryption on EBS volumes you protect the volume, the disk I/O and any derived snapshots from compromise if intercepted.
+
+
+See https://avd.aquasec.com/misconfig/aws-0026
+────────────────────────────────────────
+
+
+PASS: AWS-0027 (LOW): No issues found
+════════════════════════════════════════
+Encryption using AWS keys provides protection for your EBS volume. To increase control of the encryption and manage factors like rotation use customer managed keys.
+
+
+See https://avd.aquasec.com/misconfig/aws-0027
+────────────────────────────────────────
+
+
+PASS: AWS-0028 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0028
+────────────────────────────────────────
+
+
+PASS: AWS-0029 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0029
+────────────────────────────────────────
+
+
+PASS: AWS-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should prevent the reuse of passwords.
+
+The account password policy should be set to prevent using any of the last five used passwords.
+
+
+See https://avd.aquasec.com/misconfig/aws-0056
+────────────────────────────────────────
+
+
+PASS: AWS-0058 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one lowercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0058
+────────────────────────────────────────
+
+
+PASS: AWS-0059 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one number.
+
+
+See https://avd.aquasec.com/misconfig/aws-0059
+────────────────────────────────────────
+
+
+PASS: AWS-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including a symbol.
+
+
+See https://avd.aquasec.com/misconfig/aws-0060
+────────────────────────────────────────
+
+
+PASS: AWS-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+,
+
+IAM account password policies should ensure that passwords content including at least one uppercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0061
+────────────────────────────────────────
+
+
+PASS: AWS-0062 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should have a maximum age specified.
+
+The account password policy should be set to expire passwords after 90 days or less.
+
+
+See https://avd.aquasec.com/misconfig/aws-0062
+────────────────────────────────────────
+
+
+PASS: AWS-0063 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords have a minimum length.
+
+The account password policy should be set to enforce minimum password length of at least 14 characters.
+
+
+See https://avd.aquasec.com/misconfig/aws-0063
+────────────────────────────────────────
+
+
+PASS: AWS-0086 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should block public ACLs on buckets and any objects they contain. By blocking, PUTs with fail if the object has any public ACL a.
+
+
+See https://avd.aquasec.com/misconfig/aws-0086
+────────────────────────────────────────
+
+
+PASS: AWS-0087 (HIGH): No issues found
+════════════════════════════════════════
+S3 bucket policy should have block public policy to prevent users from putting a policy that enable public access.
+
+
+See https://avd.aquasec.com/misconfig/aws-0087
+────────────────────────────────────────
+
+
+PASS: AWS-0090 (MEDIUM): No issues found
+════════════════════════════════════════
+Versioning in Amazon S3 is a means of keeping multiple variants of an object in the same bucket.
+
+You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.
+
+With versioning you can recover more easily from both unintended user actions and application failures.
+
+When you enable versioning, also keep in mind the potential costs of storing noncurrent versions of objects. To help manage those costs, consider setting up an S3 Lifecycle configuration.
+
+
+See https://avd.aquasec.com/misconfig/aws-0090
+────────────────────────────────────────
+
+
+PASS: AWS-0091 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should ignore public ACLs on buckets and any objects they contain. By ignoring rather than blocking, PUT calls with public ACLs will still be applied but the ACL will be ignored.
+
+
+See https://avd.aquasec.com/misconfig/aws-0091
+────────────────────────────────────────
+
+
+PASS: AWS-0092 (HIGH): No issues found
+════════════════════════════════════════
+Buckets should not have ACLs that allow public access
+
+
+See https://avd.aquasec.com/misconfig/aws-0092
+────────────────────────────────────────
+
+
+PASS: AWS-0093 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should restrict public policies for the bucket. By enabling, the restrict_public_buckets, only the bucket owner and AWS Services can access if it has a public policy.
+
+
+See https://avd.aquasec.com/misconfig/aws-0093
+────────────────────────────────────────
+
+
+PASS: AWS-0094 (LOW): No issues found
+════════════════════════════════════════
+The "block public access" settings in S3 override individual policies that apply to a given bucket, meaning that all public access can be controlled in one central types for that bucket. It is therefore good practice to define these settings for each bucket in order to clearly define the public access that can be allowed for it.
+
+
+See https://avd.aquasec.com/misconfig/aws-0094
+────────────────────────────────────────
+
+
+PASS: AWS-0099 (LOW): No issues found
+════════════════════════════════════════
+Security groups should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0099
+────────────────────────────────────────
+
+
+PASS: AWS-0101 (HIGH): No issues found
+════════════════════════════════════════
+Default VPC does not have a lot of the critical security features that standard VPC comes with, new resources should not be created in the default VPC and it should not be present in the Terraform.
+
+
+See https://avd.aquasec.com/misconfig/aws-0101
+────────────────────────────────────────
+
+
+PASS: AWS-0102 (CRITICAL): No issues found
+════════════════════════════════════════
+Ensure access to specific required ports is allowed, and nothing else.
+
+
+See https://avd.aquasec.com/misconfig/aws-0102
+────────────────────────────────────────
+
+
+PASS: AWS-0105 (MEDIUM): No issues found
+════════════════════════════════════════
+The Network Access Control List (NACL) function provide stateless filtering of ingress and
+egress network traffic to AWS resources. It is recommended that no NACL allows
+unrestricted ingress access to remote server administration ports, such as SSH to port 22
+and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0105
+────────────────────────────────────────
+
+
+PASS: AWS-0107 (HIGH): No issues found
+════════════════════════════════════════
+Security groups provide stateful filtering of ingress and egress network traffic to AWS
+resources. It is recommended that no security group allows unrestricted ingress access to
+remote server administration ports, such as SSH to port 22 and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0107
+────────────────────────────────────────
+
+
+PASS: AWS-0122 (HIGH): No issues found
+════════════════════════════════════════
+When creating Launch Configurations, user data can be used for the initial configuration of the instance. User data must not contain any sensitive data.
+
+
+See https://avd.aquasec.com/misconfig/aws-0122
+────────────────────────────────────────
+
+
+PASS: AWS-0123 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM groups should be protected with multi factor authentication to add safe guards to password compromise.
+
+
+See https://avd.aquasec.com/misconfig/aws-0123
+────────────────────────────────────────
+
+
+PASS: AWS-0124 (LOW): No issues found
+════════════════════════════════════════
+Security group rules should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0124
+────────────────────────────────────────
+
+
+PASS: AWS-0129 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0129
+────────────────────────────────────────
+
+
+PASS: AWS-0130 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0130
+────────────────────────────────────────
+
+
+PASS: AWS-0131 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0131
+────────────────────────────────────────
+
+
+PASS: AWS-0140 (LOW): No issues found
+════════════════════════════════════════
+The root user has unrestricted access to all services and resources in an AWS account. We highly recommend that you avoid using the root user for daily tasks. Minimizing the use of the root user and adopting the principle of least privilege for access management reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.
+
+
+See https://avd.aquasec.com/misconfig/aws-0140
+────────────────────────────────────────
+
+
+PASS: AWS-0141 (CRITICAL): No issues found
+════════════════════════════════════════
+CIS recommends that all access keys be associated with the root user be removed. Removing access keys associated with the root user limits vectors that the account can be compromised by. Removing the root user access keys also encourages the creation and use of role-based accounts that are least privileged.
+
+
+See https://avd.aquasec.com/misconfig/aws-0141
+────────────────────────────────────────
+
+
+PASS: AWS-0143 (LOW): No issues found
+════════════════════════════════════════
+CIS recommends that you apply IAM policies directly to groups and roles but not users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grow. Reducing access management complexity might in turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+
+See https://avd.aquasec.com/misconfig/aws-0143
+────────────────────────────────────────
+
+
+PASS: AWS-0164 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0164
+────────────────────────────────────────
+
+
+PASS: AWS-0320 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that S3 buckets have DNS complaint bucket names.
+
+See https://avd.aquasec.com/misconfig/aws-0320
+────────────────────────────────────────
+
+
+PASS: AWS-0342 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures any IAM pass role attached to roles are flagged and warned.
+
+See https://avd.aquasec.com/misconfig/aws-0342
+────────────────────────────────────────
+
+
+PASS: AWS-0344 (LOW): No issues found
+════════════════════════════════════════
+AWS AMI data source should specify owners to avoid using unverified AMIs.
+The owners field helps ensure you're using AMIs from known and trusted sources.
+
+
+See https://avd.aquasec.com/misconfig/aws-0344
+────────────────────────────────────────
+
+
+PASS: AWS-0345 (HIGH): No issues found
+════════════════════════════════════════
+Ensure that the creation of the unrestricted S3 IAM policies is disallowed.
+
+See https://avd.aquasec.com/misconfig/aws-0345
+────────────────────────────────────────
+
+
+PASS: AWS-0346 (HIGH): No issues found
+════════════════════════════════════════
+Unnecessary access to S3 buckets can lead to unauthorized access or information disclosure.
+
+See https://avd.aquasec.com/misconfig/aws-0346
+────────────────────────────────────────
+
+
+PASS: AZU-0007 (HIGH): No issues found
+════════════════════════════════════════
+Storage container public access should be off. It can be configured for blobs only, containers and blobs or off entirely. The default is off, with no public access.
+Explicitly overriding publicAccess to anything other than off should be avoided.
+
+
+See https://avd.aquasec.com/misconfig/azu-0007
+────────────────────────────────────────
+
+
+PASS: AZU-0008 (HIGH): No issues found
+════════════════════════════════════════
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account.
+When you require secure transfer, any requests originating from an insecure connection are rejected.
+Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+
+See https://avd.aquasec.com/misconfig/azu-0008
+────────────────────────────────────────
+
+
+PASS: AZU-0009 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Requests are logged on a best-effort basis.
+
+
+See https://avd.aquasec.com/misconfig/azu-0009
+────────────────────────────────────────
+
+
+PASS: AZU-0010 (HIGH): No issues found
+════════════════════════════════════════
+Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules.
+To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules
+
+
+See https://avd.aquasec.com/misconfig/azu-0010
+────────────────────────────────────────
+
+
+PASS: AZU-0011 (CRITICAL): No issues found
+════════════════════════════════════════
+Azure Storage supports four versions of the TLS protocol: 1.0, 1.1, 1.2, and 1.3.
+Azure Storage uses TLS 1.2 or TLS 1.3 on public HTTPS endpoints, while TLS 1.0 and TLS 1.1 are still supported for backward compatibility.
+This check will warn if the minimum TLS version is set lower than TLS1_2. TLS1_2 and TLS1_3 are both allowed.
+
+
+See https://avd.aquasec.com/misconfig/azu-0011
+────────────────────────────────────────
+
+
+PASS: AZU-0012 (CRITICAL): No issues found
+════════════════════════════════════════
+The default_action for network rules should come into effect when no other rules are matched.
+The default action should be set to Deny.
+
+
+See https://avd.aquasec.com/misconfig/azu-0012
+────────────────────────────────────────
+
+
+PASS: AZU-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+Blob soft delete protects blob data from being accidentally or erroneously modified or deleted.
+When blob soft delete is enabled, deleted blobs are retained in the system for a specified retention period.
+During the retention period, you can restore a soft-deleted blob to its state at the time it was deleted.
+
+
+See https://avd.aquasec.com/misconfig/azu-0056
+────────────────────────────────────────
+
+
+PASS: AZU-0057 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Logging should be enabled for at least one storage service type.
+
+
+See https://avd.aquasec.com/misconfig/azu-0057
+────────────────────────────────────────
+
+
+PASS: AZU-0058 (LOW): No issues found
+════════════════════════════════════════
+Geo-redundant storage (GRS) replicates your data to a secondary region that is hundreds of miles away from the primary region.
+This provides an additional level of durability for your data in the event of a complete regional outage or a disaster.
+Options include GRS, RAGRS, GZRS, and RAGZRS for geo-redundancy.
+
+
+See https://avd.aquasec.com/misconfig/azu-0058
+────────────────────────────────────────
+
+
+PASS: AZU-0059 (HIGH): No issues found
+════════════════════════════════════════
+Storage accounts should enforce HTTPS for secure data transfer and use a minimum TLS version of 1.2 or higher.
+This ensures that logs and data stored in the storage account are encrypted in transit.
+Azure Storage encrypts all data at rest by default, but transport encryption is also critical.
+
+
+See https://avd.aquasec.com/misconfig/azu-0059
+────────────────────────────────────────
+
+
+PASS: AZU-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage accounts should use customer-managed keys (CMK) for encryption to provide additional control over the encryption keys.
+Customer-managed keys allow you to create, rotate, disable, and revoke access controls.
+They also provide greater flexibility to audit the encryption keys that are used to protect your data.
+
+
+See https://avd.aquasec.com/misconfig/azu-0060
+────────────────────────────────────────
+
+
+PASS: AZU-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+Infrastructure encryption provides an additional layer of encryption at the infrastructure level.
+When infrastructure encryption is enabled, data in the storage account is encrypted twice -
+once at the service level and once at the infrastructure level with two different encryption algorithms.
+This provides double encryption for enhanced security.
+
+
+See https://avd.aquasec.com/misconfig/azu-0061
+────────────────────────────────────────
+
+
+PASS: GCP-0027 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0027
+────────────────────────────────────────
+
+
+PASS: GCP-0029 (LOW): No issues found
+════════════════════════════════════════
+VPC flow logs record information about all traffic, which is a vital tool in reviewing anomalous traffic.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0029
+────────────────────────────────────────
+
+
+PASS: GCP-0030 (MEDIUM): No issues found
+════════════════════════════════════════
+Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0030
+────────────────────────────────────────
+
+
+PASS: GCP-0031 (HIGH): No issues found
+════════════════════════════════════════
+Instances should not be publicly exposed to the internet
+
+
+See https://avd.aquasec.com/misconfig/gcp-0031
+────────────────────────────────────────
+
+
+PASS: GCP-0032 (MEDIUM): No issues found
+════════════════════════════════════════
+When serial port access is enabled, the access is not governed by network security rules meaning the port can be exposed publicly.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0032
+────────────────────────────────────────
+
+
+PASS: GCP-0033 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0033
+────────────────────────────────────────
+
+
+PASS: GCP-0034 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0034
+────────────────────────────────────────
+
+
+PASS: GCP-0035 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to connect out to the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0035
+────────────────────────────────────────
+
+
+PASS: GCP-0036 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0036
+────────────────────────────────────────
+
+
+PASS: GCP-0037 (CRITICAL): No issues found
+════════════════════════════════════════
+Sensitive values such as raw encryption keys should not be included in your Terraform code, and should be stored securely by a secrets manager.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0037
+────────────────────────────────────────
+
+
+PASS: GCP-0039 (CRITICAL): No issues found
+════════════════════════════════════════
+TLS versions prior to 1.2 are outdated and insecure. You should use 1.2 as aminimum version.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0039
+────────────────────────────────────────
+
+
+PASS: GCP-0041 (MEDIUM): No issues found
+════════════════════════════════════════
+The virtual TPM provides numerous security measures to your VM.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0041
+────────────────────────────────────────
+
+
+PASS: GCP-0042 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0042
+────────────────────────────────────────
+
+
+PASS: GCP-0043 (HIGH): No issues found
+════════════════════════════════════════
+Disabling IP forwarding ensures the instance can only receive packets addressed to the instance and can only send packets with a source address of the instance.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0043
+────────────────────────────────────────
+
+
+PASS: GCP-0044 (CRITICAL): No issues found
+════════════════════════════════════════
+The default service account has full project access. Instances should instead be assigned the minimal access they need.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0044
+────────────────────────────────────────
+
+
+PASS: GCP-0045 (MEDIUM): No issues found
+════════════════════════════════════════
+Integrity monitoring helps you understand and make decisions about the state of your VM instances.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0045
+────────────────────────────────────────
+
+
+PASS: GCP-0067 (MEDIUM): No issues found
+════════════════════════════════════════
+Secure boot helps ensure that the system only runs authentic software.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0067
+────────────────────────────────────────
+
+
+PASS: GCP-0070 (HIGH): No issues found
+════════════════════════════════════════
+Firewall rules should restrict RDP (TCP/3389) access to specific IP ranges. Open RDP access can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0070
+────────────────────────────────────────
+
+
+PASS: GCP-0071 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should restrict SSH (TCP/22) access to specific IPs. Open SSH can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0071
+────────────────────────────────────────
+
+
+PASS: GCP-0072 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should not be wide open to all ports. Lock down rules to only required ports.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0072
+────────────────────────────────────────
+
+
+PASS: GCP-0073 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.
+The default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0073
+────────────────────────────────────────
+
+
+PASS: GCP-0074 (LOW): No issues found
+════════════════════════════════════════
+Firewall rules allowing broad port ranges can be risky. Ensure rules are as specific as possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0074
+────────────────────────────────────────
+
+
+PASS: GCP-0075 (LOW): No issues found
+════════════════════════════════════════
+Private Google Access allows instances in a subnet to reach Google APIs and services via internal IP, which should be enabled for private networks.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0075
+────────────────────────────────────────
+
+
+PASS: GCP-0076 (MEDIUM): No issues found
+════════════════════════════════════════
+Flow logs for subnets should be enabled to capture network traffic details for security analysis.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0076
+────────────────────────────────────────
+
+
+
+environments/staging (terraform)
+================================
+Tests: 78 (SUCCESSES: 78, FAILURES: 0)
+Failures: 0 (LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+PASS: AWS-0008 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0008
+────────────────────────────────────────
+
+
+PASS: AWS-0009 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0009
+────────────────────────────────────────
+
+
+PASS: AWS-0017 (LOW): No issues found
+════════════════════════════════════════
+CloudWatch log groups are encrypted by default, however, to get the full benefit of controlling key rotation and other KMS aspects a KMS CMK should be used.
+
+
+See https://avd.aquasec.com/misconfig/aws-0017
+────────────────────────────────────────
+
+
+PASS: AWS-0019 (HIGH): No issues found
+════════════════════════════════════════
+Sources that aren't covered by the aggregator are not include in the configuration. The configuration aggregator should be configured with all_regions for the source.
+This will help limit the risk of any unmonitored configuration in regions that are thought to be unused.
+
+
+See https://avd.aquasec.com/misconfig/aws-0019
+────────────────────────────────────────
+
+
+PASS: AWS-0026 (HIGH): No issues found
+════════════════════════════════════════
+By enabling encryption on EBS volumes you protect the volume, the disk I/O and any derived snapshots from compromise if intercepted.
+
+
+See https://avd.aquasec.com/misconfig/aws-0026
+────────────────────────────────────────
+
+
+PASS: AWS-0027 (LOW): No issues found
+════════════════════════════════════════
+Encryption using AWS keys provides protection for your EBS volume. To increase control of the encryption and manage factors like rotation use customer managed keys.
+
+
+See https://avd.aquasec.com/misconfig/aws-0027
+────────────────────────────────────────
+
+
+PASS: AWS-0028 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0028
+────────────────────────────────────────
+
+
+PASS: AWS-0029 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0029
+────────────────────────────────────────
+
+
+PASS: AWS-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should prevent the reuse of passwords.
+
+The account password policy should be set to prevent using any of the last five used passwords.
+
+
+See https://avd.aquasec.com/misconfig/aws-0056
+────────────────────────────────────────
+
+
+PASS: AWS-0058 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one lowercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0058
+────────────────────────────────────────
+
+
+PASS: AWS-0059 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one number.
+
+
+See https://avd.aquasec.com/misconfig/aws-0059
+────────────────────────────────────────
+
+
+PASS: AWS-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including a symbol.
+
+
+See https://avd.aquasec.com/misconfig/aws-0060
+────────────────────────────────────────
+
+
+PASS: AWS-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+,
+
+IAM account password policies should ensure that passwords content including at least one uppercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0061
+────────────────────────────────────────
+
+
+PASS: AWS-0062 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should have a maximum age specified.
+
+The account password policy should be set to expire passwords after 90 days or less.
+
+
+See https://avd.aquasec.com/misconfig/aws-0062
+────────────────────────────────────────
+
+
+PASS: AWS-0063 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords have a minimum length.
+
+The account password policy should be set to enforce minimum password length of at least 14 characters.
+
+
+See https://avd.aquasec.com/misconfig/aws-0063
+────────────────────────────────────────
+
+
+PASS: AWS-0086 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should block public ACLs on buckets and any objects they contain. By blocking, PUTs with fail if the object has any public ACL a.
+
+
+See https://avd.aquasec.com/misconfig/aws-0086
+────────────────────────────────────────
+
+
+PASS: AWS-0087 (HIGH): No issues found
+════════════════════════════════════════
+S3 bucket policy should have block public policy to prevent users from putting a policy that enable public access.
+
+
+See https://avd.aquasec.com/misconfig/aws-0087
+────────────────────────────────────────
+
+
+PASS: AWS-0090 (MEDIUM): No issues found
+════════════════════════════════════════
+Versioning in Amazon S3 is a means of keeping multiple variants of an object in the same bucket.
+
+You can use the S3 Versioning feature to preserve, retrieve, and restore every version of every object stored in your buckets.
+
+With versioning you can recover more easily from both unintended user actions and application failures.
+
+When you enable versioning, also keep in mind the potential costs of storing noncurrent versions of objects. To help manage those costs, consider setting up an S3 Lifecycle configuration.
+
+
+See https://avd.aquasec.com/misconfig/aws-0090
+────────────────────────────────────────
+
+
+PASS: AWS-0091 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should ignore public ACLs on buckets and any objects they contain. By ignoring rather than blocking, PUT calls with public ACLs will still be applied but the ACL will be ignored.
+
+
+See https://avd.aquasec.com/misconfig/aws-0091
+────────────────────────────────────────
+
+
+PASS: AWS-0092 (HIGH): No issues found
+════════════════════════════════════════
+Buckets should not have ACLs that allow public access
+
+
+See https://avd.aquasec.com/misconfig/aws-0092
+────────────────────────────────────────
+
+
+PASS: AWS-0093 (HIGH): No issues found
+════════════════════════════════════════
+S3 buckets should restrict public policies for the bucket. By enabling, the restrict_public_buckets, only the bucket owner and AWS Services can access if it has a public policy.
+
+
+See https://avd.aquasec.com/misconfig/aws-0093
+────────────────────────────────────────
+
+
+PASS: AWS-0094 (LOW): No issues found
+════════════════════════════════════════
+The "block public access" settings in S3 override individual policies that apply to a given bucket, meaning that all public access can be controlled in one central types for that bucket. It is therefore good practice to define these settings for each bucket in order to clearly define the public access that can be allowed for it.
+
+
+See https://avd.aquasec.com/misconfig/aws-0094
+────────────────────────────────────────
+
+
+PASS: AWS-0099 (LOW): No issues found
+════════════════════════════════════════
+Security groups should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0099
+────────────────────────────────────────
+
+
+PASS: AWS-0101 (HIGH): No issues found
+════════════════════════════════════════
+Default VPC does not have a lot of the critical security features that standard VPC comes with, new resources should not be created in the default VPC and it should not be present in the Terraform.
+
+
+See https://avd.aquasec.com/misconfig/aws-0101
+────────────────────────────────────────
+
+
+PASS: AWS-0102 (CRITICAL): No issues found
+════════════════════════════════════════
+Ensure access to specific required ports is allowed, and nothing else.
+
+
+See https://avd.aquasec.com/misconfig/aws-0102
+────────────────────────────────────────
+
+
+PASS: AWS-0105 (MEDIUM): No issues found
+════════════════════════════════════════
+The Network Access Control List (NACL) function provide stateless filtering of ingress and
+egress network traffic to AWS resources. It is recommended that no NACL allows
+unrestricted ingress access to remote server administration ports, such as SSH to port 22
+and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0105
+────────────────────────────────────────
+
+
+PASS: AWS-0107 (HIGH): No issues found
+════════════════════════════════════════
+Security groups provide stateful filtering of ingress and egress network traffic to AWS
+resources. It is recommended that no security group allows unrestricted ingress access to
+remote server administration ports, such as SSH to port 22 and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0107
+────────────────────────────────────────
+
+
+PASS: AWS-0122 (HIGH): No issues found
+════════════════════════════════════════
+When creating Launch Configurations, user data can be used for the initial configuration of the instance. User data must not contain any sensitive data.
+
+
+See https://avd.aquasec.com/misconfig/aws-0122
+────────────────────────────────────────
+
+
+PASS: AWS-0123 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM groups should be protected with multi factor authentication to add safe guards to password compromise.
+
+
+See https://avd.aquasec.com/misconfig/aws-0123
+────────────────────────────────────────
+
+
+PASS: AWS-0124 (LOW): No issues found
+════════════════════════════════════════
+Security group rules should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0124
+────────────────────────────────────────
+
+
+PASS: AWS-0129 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0129
+────────────────────────────────────────
+
+
+PASS: AWS-0130 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0130
+────────────────────────────────────────
+
+
+PASS: AWS-0131 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0131
+────────────────────────────────────────
+
+
+PASS: AWS-0140 (LOW): No issues found
+════════════════════════════════════════
+The root user has unrestricted access to all services and resources in an AWS account. We highly recommend that you avoid using the root user for daily tasks. Minimizing the use of the root user and adopting the principle of least privilege for access management reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.
+
+
+See https://avd.aquasec.com/misconfig/aws-0140
+────────────────────────────────────────
+
+
+PASS: AWS-0141 (CRITICAL): No issues found
+════════════════════════════════════════
+CIS recommends that all access keys be associated with the root user be removed. Removing access keys associated with the root user limits vectors that the account can be compromised by. Removing the root user access keys also encourages the creation and use of role-based accounts that are least privileged.
+
+
+See https://avd.aquasec.com/misconfig/aws-0141
+────────────────────────────────────────
+
+
+PASS: AWS-0143 (LOW): No issues found
+════════════════════════════════════════
+CIS recommends that you apply IAM policies directly to groups and roles but not users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grow. Reducing access management complexity might in turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+
+See https://avd.aquasec.com/misconfig/aws-0143
+────────────────────────────────────────
+
+
+PASS: AWS-0164 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0164
+────────────────────────────────────────
+
+
+PASS: AWS-0320 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that S3 buckets have DNS complaint bucket names.
+
+See https://avd.aquasec.com/misconfig/aws-0320
+────────────────────────────────────────
+
+
+PASS: AWS-0342 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures any IAM pass role attached to roles are flagged and warned.
+
+See https://avd.aquasec.com/misconfig/aws-0342
+────────────────────────────────────────
+
+
+PASS: AWS-0344 (LOW): No issues found
+════════════════════════════════════════
+AWS AMI data source should specify owners to avoid using unverified AMIs.
+The owners field helps ensure you're using AMIs from known and trusted sources.
+
+
+See https://avd.aquasec.com/misconfig/aws-0344
+────────────────────────────────────────
+
+
+PASS: AWS-0345 (HIGH): No issues found
+════════════════════════════════════════
+Ensure that the creation of the unrestricted S3 IAM policies is disallowed.
+
+See https://avd.aquasec.com/misconfig/aws-0345
+────────────────────────────────────────
+
+
+PASS: AWS-0346 (HIGH): No issues found
+════════════════════════════════════════
+Unnecessary access to S3 buckets can lead to unauthorized access or information disclosure.
+
+See https://avd.aquasec.com/misconfig/aws-0346
+────────────────────────────────────────
+
+
+PASS: AZU-0007 (HIGH): No issues found
+════════════════════════════════════════
+Storage container public access should be off. It can be configured for blobs only, containers and blobs or off entirely. The default is off, with no public access.
+Explicitly overriding publicAccess to anything other than off should be avoided.
+
+
+See https://avd.aquasec.com/misconfig/azu-0007
+────────────────────────────────────────
+
+
+PASS: AZU-0008 (HIGH): No issues found
+════════════════════════════════════════
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account.
+When you require secure transfer, any requests originating from an insecure connection are rejected.
+Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+
+See https://avd.aquasec.com/misconfig/azu-0008
+────────────────────────────────────────
+
+
+PASS: AZU-0009 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Requests are logged on a best-effort basis.
+
+
+See https://avd.aquasec.com/misconfig/azu-0009
+────────────────────────────────────────
+
+
+PASS: AZU-0010 (HIGH): No issues found
+════════════════════════════════════════
+Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules.
+To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules
+
+
+See https://avd.aquasec.com/misconfig/azu-0010
+────────────────────────────────────────
+
+
+PASS: AZU-0011 (CRITICAL): No issues found
+════════════════════════════════════════
+Azure Storage supports four versions of the TLS protocol: 1.0, 1.1, 1.2, and 1.3.
+Azure Storage uses TLS 1.2 or TLS 1.3 on public HTTPS endpoints, while TLS 1.0 and TLS 1.1 are still supported for backward compatibility.
+This check will warn if the minimum TLS version is set lower than TLS1_2. TLS1_2 and TLS1_3 are both allowed.
+
+
+See https://avd.aquasec.com/misconfig/azu-0011
+────────────────────────────────────────
+
+
+PASS: AZU-0012 (CRITICAL): No issues found
+════════════════════════════════════════
+The default_action for network rules should come into effect when no other rules are matched.
+The default action should be set to Deny.
+
+
+See https://avd.aquasec.com/misconfig/azu-0012
+────────────────────────────────────────
+
+
+PASS: AZU-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+Blob soft delete protects blob data from being accidentally or erroneously modified or deleted.
+When blob soft delete is enabled, deleted blobs are retained in the system for a specified retention period.
+During the retention period, you can restore a soft-deleted blob to its state at the time it was deleted.
+
+
+See https://avd.aquasec.com/misconfig/azu-0056
+────────────────────────────────────────
+
+
+PASS: AZU-0057 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Logging should be enabled for at least one storage service type.
+
+
+See https://avd.aquasec.com/misconfig/azu-0057
+────────────────────────────────────────
+
+
+PASS: AZU-0058 (LOW): No issues found
+════════════════════════════════════════
+Geo-redundant storage (GRS) replicates your data to a secondary region that is hundreds of miles away from the primary region.
+This provides an additional level of durability for your data in the event of a complete regional outage or a disaster.
+Options include GRS, RAGRS, GZRS, and RAGZRS for geo-redundancy.
+
+
+See https://avd.aquasec.com/misconfig/azu-0058
+────────────────────────────────────────
+
+
+PASS: AZU-0059 (HIGH): No issues found
+════════════════════════════════════════
+Storage accounts should enforce HTTPS for secure data transfer and use a minimum TLS version of 1.2 or higher.
+This ensures that logs and data stored in the storage account are encrypted in transit.
+Azure Storage encrypts all data at rest by default, but transport encryption is also critical.
+
+
+See https://avd.aquasec.com/misconfig/azu-0059
+────────────────────────────────────────
+
+
+PASS: AZU-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage accounts should use customer-managed keys (CMK) for encryption to provide additional control over the encryption keys.
+Customer-managed keys allow you to create, rotate, disable, and revoke access controls.
+They also provide greater flexibility to audit the encryption keys that are used to protect your data.
+
+
+See https://avd.aquasec.com/misconfig/azu-0060
+────────────────────────────────────────
+
+
+PASS: AZU-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+Infrastructure encryption provides an additional layer of encryption at the infrastructure level.
+When infrastructure encryption is enabled, data in the storage account is encrypted twice -
+once at the service level and once at the infrastructure level with two different encryption algorithms.
+This provides double encryption for enhanced security.
+
+
+See https://avd.aquasec.com/misconfig/azu-0061
+────────────────────────────────────────
+
+
+PASS: GCP-0027 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0027
+────────────────────────────────────────
+
+
+PASS: GCP-0029 (LOW): No issues found
+════════════════════════════════════════
+VPC flow logs record information about all traffic, which is a vital tool in reviewing anomalous traffic.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0029
+────────────────────────────────────────
+
+
+PASS: GCP-0030 (MEDIUM): No issues found
+════════════════════════════════════════
+Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0030
+────────────────────────────────────────
+
+
+PASS: GCP-0031 (HIGH): No issues found
+════════════════════════════════════════
+Instances should not be publicly exposed to the internet
+
+
+See https://avd.aquasec.com/misconfig/gcp-0031
+────────────────────────────────────────
+
+
+PASS: GCP-0032 (MEDIUM): No issues found
+════════════════════════════════════════
+When serial port access is enabled, the access is not governed by network security rules meaning the port can be exposed publicly.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0032
+────────────────────────────────────────
+
+
+PASS: GCP-0033 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0033
+────────────────────────────────────────
+
+
+PASS: GCP-0034 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0034
+────────────────────────────────────────
+
+
+PASS: GCP-0035 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to connect out to the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0035
+────────────────────────────────────────
+
+
+PASS: GCP-0036 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0036
+────────────────────────────────────────
+
+
+PASS: GCP-0037 (CRITICAL): No issues found
+════════════════════════════════════════
+Sensitive values such as raw encryption keys should not be included in your Terraform code, and should be stored securely by a secrets manager.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0037
+────────────────────────────────────────
+
+
+PASS: GCP-0039 (CRITICAL): No issues found
+════════════════════════════════════════
+TLS versions prior to 1.2 are outdated and insecure. You should use 1.2 as aminimum version.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0039
+────────────────────────────────────────
+
+
+PASS: GCP-0041 (MEDIUM): No issues found
+════════════════════════════════════════
+The virtual TPM provides numerous security measures to your VM.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0041
+────────────────────────────────────────
+
+
+PASS: GCP-0042 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0042
+────────────────────────────────────────
+
+
+PASS: GCP-0043 (HIGH): No issues found
+════════════════════════════════════════
+Disabling IP forwarding ensures the instance can only receive packets addressed to the instance and can only send packets with a source address of the instance.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0043
+────────────────────────────────────────
+
+
+PASS: GCP-0044 (CRITICAL): No issues found
+════════════════════════════════════════
+The default service account has full project access. Instances should instead be assigned the minimal access they need.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0044
+────────────────────────────────────────
+
+
+PASS: GCP-0045 (MEDIUM): No issues found
+════════════════════════════════════════
+Integrity monitoring helps you understand and make decisions about the state of your VM instances.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0045
+────────────────────────────────────────
+
+
+PASS: GCP-0067 (MEDIUM): No issues found
+════════════════════════════════════════
+Secure boot helps ensure that the system only runs authentic software.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0067
+────────────────────────────────────────
+
+
+PASS: GCP-0070 (HIGH): No issues found
+════════════════════════════════════════
+Firewall rules should restrict RDP (TCP/3389) access to specific IP ranges. Open RDP access can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0070
+────────────────────────────────────────
+
+
+PASS: GCP-0071 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should restrict SSH (TCP/22) access to specific IPs. Open SSH can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0071
+────────────────────────────────────────
+
+
+PASS: GCP-0072 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should not be wide open to all ports. Lock down rules to only required ports.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0072
+────────────────────────────────────────
+
+
+PASS: GCP-0073 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.
+The default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0073
+────────────────────────────────────────
+
+
+PASS: GCP-0074 (LOW): No issues found
+════════════════════════════════════════
+Firewall rules allowing broad port ranges can be risky. Ensure rules are as specific as possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0074
+────────────────────────────────────────
+
+
+PASS: GCP-0075 (LOW): No issues found
+════════════════════════════════════════
+Private Google Access allows instances in a subnet to reach Google APIs and services via internal IP, which should be enabled for private networks.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0075
+────────────────────────────────────────
+
+
+PASS: GCP-0076 (MEDIUM): No issues found
+════════════════════════════════════════
+Flow logs for subnets should be enabled to capture network traffic details for security analysis.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0076
+────────────────────────────────────────
+
+
+
+examples/minimal-vpc (terraform)
+================================
+Tests: 69 (SUCCESSES: 69, FAILURES: 0)
+Failures: 0 (LOW: 0, MEDIUM: 0, HIGH: 0, CRITICAL: 0)
+
+PASS: AWS-0008 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0008
+────────────────────────────────────────
+
+
+PASS: AWS-0009 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0009
+────────────────────────────────────────
+
+
+PASS: AWS-0019 (HIGH): No issues found
+════════════════════════════════════════
+Sources that aren't covered by the aggregator are not include in the configuration. The configuration aggregator should be configured with all_regions for the source.
+This will help limit the risk of any unmonitored configuration in regions that are thought to be unused.
+
+
+See https://avd.aquasec.com/misconfig/aws-0019
+────────────────────────────────────────
+
+
+PASS: AWS-0026 (HIGH): No issues found
+════════════════════════════════════════
+By enabling encryption on EBS volumes you protect the volume, the disk I/O and any derived snapshots from compromise if intercepted.
+
+
+See https://avd.aquasec.com/misconfig/aws-0026
+────────────────────────────────────────
+
+
+PASS: AWS-0027 (LOW): No issues found
+════════════════════════════════════════
+Encryption using AWS keys provides protection for your EBS volume. To increase control of the encryption and manage factors like rotation use customer managed keys.
+
+
+See https://avd.aquasec.com/misconfig/aws-0027
+────────────────────────────────────────
+
+
+PASS: AWS-0028 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0028
+────────────────────────────────────────
+
+
+PASS: AWS-0029 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0029
+────────────────────────────────────────
+
+
+PASS: AWS-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should prevent the reuse of passwords.
+
+The account password policy should be set to prevent using any of the last five used passwords.
+
+
+See https://avd.aquasec.com/misconfig/aws-0056
+────────────────────────────────────────
+
+
+PASS: AWS-0058 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one lowercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0058
+────────────────────────────────────────
+
+
+PASS: AWS-0059 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including at least one number.
+
+
+See https://avd.aquasec.com/misconfig/aws-0059
+────────────────────────────────────────
+
+
+PASS: AWS-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords content including a symbol.
+
+
+See https://avd.aquasec.com/misconfig/aws-0060
+────────────────────────────────────────
+
+
+PASS: AWS-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+,
+
+IAM account password policies should ensure that passwords content including at least one uppercase character.
+
+
+See https://avd.aquasec.com/misconfig/aws-0061
+────────────────────────────────────────
+
+
+PASS: AWS-0062 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should have a maximum age specified.
+
+The account password policy should be set to expire passwords after 90 days or less.
+
+
+See https://avd.aquasec.com/misconfig/aws-0062
+────────────────────────────────────────
+
+
+PASS: AWS-0063 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM account password policies should ensure that passwords have a minimum length.
+
+The account password policy should be set to enforce minimum password length of at least 14 characters.
+
+
+See https://avd.aquasec.com/misconfig/aws-0063
+────────────────────────────────────────
+
+
+PASS: AWS-0099 (LOW): No issues found
+════════════════════════════════════════
+Security groups should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0099
+────────────────────────────────────────
+
+
+PASS: AWS-0101 (HIGH): No issues found
+════════════════════════════════════════
+Default VPC does not have a lot of the critical security features that standard VPC comes with, new resources should not be created in the default VPC and it should not be present in the Terraform.
+
+
+See https://avd.aquasec.com/misconfig/aws-0101
+────────────────────────────────────────
+
+
+PASS: AWS-0102 (CRITICAL): No issues found
+════════════════════════════════════════
+Ensure access to specific required ports is allowed, and nothing else.
+
+
+See https://avd.aquasec.com/misconfig/aws-0102
+────────────────────────────────────────
+
+
+PASS: AWS-0105 (MEDIUM): No issues found
+════════════════════════════════════════
+The Network Access Control List (NACL) function provide stateless filtering of ingress and
+egress network traffic to AWS resources. It is recommended that no NACL allows
+unrestricted ingress access to remote server administration ports, such as SSH to port 22
+and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0105
+────────────────────────────────────────
+
+
+PASS: AWS-0107 (HIGH): No issues found
+════════════════════════════════════════
+Security groups provide stateful filtering of ingress and egress network traffic to AWS
+resources. It is recommended that no security group allows unrestricted ingress access to
+remote server administration ports, such as SSH to port 22 and RDP to port 3389.
+
+
+See https://avd.aquasec.com/misconfig/aws-0107
+────────────────────────────────────────
+
+
+PASS: AWS-0122 (HIGH): No issues found
+════════════════════════════════════════
+When creating Launch Configurations, user data can be used for the initial configuration of the instance. User data must not contain any sensitive data.
+
+
+See https://avd.aquasec.com/misconfig/aws-0122
+────────────────────────────────────────
+
+
+PASS: AWS-0123 (MEDIUM): No issues found
+════════════════════════════════════════
+IAM groups should be protected with multi factor authentication to add safe guards to password compromise.
+
+
+See https://avd.aquasec.com/misconfig/aws-0123
+────────────────────────────────────────
+
+
+PASS: AWS-0124 (LOW): No issues found
+════════════════════════════════════════
+Security group rules should include a description for auditing purposes.
+
+Simplifies auditing, debugging, and managing security groups.
+
+
+See https://avd.aquasec.com/misconfig/aws-0124
+────────────────────────────────────────
+
+
+PASS: AWS-0129 (CRITICAL): No issues found
+════════════════════════════════════════
+EC2 instance data is used to pass start up information into the EC2 instance. This userdata must not contain access key credentials. Instead use an IAM Instance Profile assigned to the instance to grant access to other AWS Services.
+
+
+See https://avd.aquasec.com/misconfig/aws-0129
+────────────────────────────────────────
+
+
+PASS: AWS-0130 (HIGH): No issues found
+════════════════════════════════════════
+IMDS v2 (Instance Metadata Service) introduced session authentication tokens which improve security when talking to IMDS.
+
+By default <code>aws_instance</code> resource sets IMDS session auth tokens to be optional.
+
+To fully protect IMDS you need to enable session tokens by using <code>metadata_options</code> block and its <code>http_tokens</code> variable set to <code>required</code>.
+
+
+See https://avd.aquasec.com/misconfig/aws-0130
+────────────────────────────────────────
+
+
+PASS: AWS-0131 (HIGH): No issues found
+════════════════════════════════════════
+Block devices should be encrypted to ensure sensitive data is held securely at rest.
+
+
+See https://avd.aquasec.com/misconfig/aws-0131
+────────────────────────────────────────
+
+
+PASS: AWS-0140 (LOW): No issues found
+════════════════════════════════════════
+The root user has unrestricted access to all services and resources in an AWS account. We highly recommend that you avoid using the root user for daily tasks. Minimizing the use of the root user and adopting the principle of least privilege for access management reduce the risk of accidental changes and unintended disclosure of highly privileged credentials.
+
+
+See https://avd.aquasec.com/misconfig/aws-0140
+────────────────────────────────────────
+
+
+PASS: AWS-0141 (CRITICAL): No issues found
+════════════════════════════════════════
+CIS recommends that all access keys be associated with the root user be removed. Removing access keys associated with the root user limits vectors that the account can be compromised by. Removing the root user access keys also encourages the creation and use of role-based accounts that are least privileged.
+
+
+See https://avd.aquasec.com/misconfig/aws-0141
+────────────────────────────────────────
+
+
+PASS: AWS-0143 (LOW): No issues found
+════════════════════════════════════════
+CIS recommends that you apply IAM policies directly to groups and roles but not users. Assigning privileges at the group or role level reduces the complexity of access management as the number of users grow. Reducing access management complexity might in turn reduce opportunity for a principal to inadvertently receive or retain excessive privileges.
+
+
+See https://avd.aquasec.com/misconfig/aws-0143
+────────────────────────────────────────
+
+
+PASS: AWS-0164 (HIGH): No issues found
+════════════════════════════════════════
+You should limit the provision of public IP addresses for resources. Resources should not be exposed on the public internet, but should have access limited to consumers required for the function of your application.
+
+
+See https://avd.aquasec.com/misconfig/aws-0164
+────────────────────────────────────────
+
+
+PASS: AWS-0342 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures any IAM pass role attached to roles are flagged and warned.
+
+See https://avd.aquasec.com/misconfig/aws-0342
+────────────────────────────────────────
+
+
+PASS: AWS-0344 (LOW): No issues found
+════════════════════════════════════════
+AWS AMI data source should specify owners to avoid using unverified AMIs.
+The owners field helps ensure you're using AMIs from known and trusted sources.
+
+
+See https://avd.aquasec.com/misconfig/aws-0344
+────────────────────────────────────────
+
+
+PASS: AWS-0345 (HIGH): No issues found
+════════════════════════════════════════
+Ensure that the creation of the unrestricted S3 IAM policies is disallowed.
+
+See https://avd.aquasec.com/misconfig/aws-0345
+────────────────────────────────────────
+
+
+PASS: AWS-0346 (HIGH): No issues found
+════════════════════════════════════════
+Unnecessary access to S3 buckets can lead to unauthorized access or information disclosure.
+
+See https://avd.aquasec.com/misconfig/aws-0346
+────────────────────────────────────────
+
+
+PASS: AZU-0007 (HIGH): No issues found
+════════════════════════════════════════
+Storage container public access should be off. It can be configured for blobs only, containers and blobs or off entirely. The default is off, with no public access.
+Explicitly overriding publicAccess to anything other than off should be avoided.
+
+
+See https://avd.aquasec.com/misconfig/azu-0007
+────────────────────────────────────────
+
+
+PASS: AZU-0008 (HIGH): No issues found
+════════════════════════════════════════
+You can configure your storage account to accept requests from secure connections only by setting the Secure transfer required property for the storage account.
+When you require secure transfer, any requests originating from an insecure connection are rejected.
+Microsoft recommends that you always require secure transfer for all of your storage accounts.
+
+
+See https://avd.aquasec.com/misconfig/azu-0008
+────────────────────────────────────────
+
+
+PASS: AZU-0009 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Requests are logged on a best-effort basis.
+
+
+See https://avd.aquasec.com/misconfig/azu-0009
+────────────────────────────────────────
+
+
+PASS: AZU-0010 (HIGH): No issues found
+════════════════════════════════════════
+Some Microsoft services that interact with storage accounts operate from networks that can't be granted access through network rules.
+To help this type of service work as intended, allow the set of trusted Microsoft services to bypass the network rules
+
+
+See https://avd.aquasec.com/misconfig/azu-0010
+────────────────────────────────────────
+
+
+PASS: AZU-0011 (CRITICAL): No issues found
+════════════════════════════════════════
+Azure Storage supports four versions of the TLS protocol: 1.0, 1.1, 1.2, and 1.3.
+Azure Storage uses TLS 1.2 or TLS 1.3 on public HTTPS endpoints, while TLS 1.0 and TLS 1.1 are still supported for backward compatibility.
+This check will warn if the minimum TLS version is set lower than TLS1_2. TLS1_2 and TLS1_3 are both allowed.
+
+
+See https://avd.aquasec.com/misconfig/azu-0011
+────────────────────────────────────────
+
+
+PASS: AZU-0012 (CRITICAL): No issues found
+════════════════════════════════════════
+The default_action for network rules should come into effect when no other rules are matched.
+The default action should be set to Deny.
+
+
+See https://avd.aquasec.com/misconfig/azu-0012
+────────────────────────────────────────
+
+
+PASS: AZU-0056 (MEDIUM): No issues found
+════════════════════════════════════════
+Blob soft delete protects blob data from being accidentally or erroneously modified or deleted.
+When blob soft delete is enabled, deleted blobs are retained in the system for a specified retention period.
+During the retention period, you can restore a soft-deleted blob to its state at the time it was deleted.
+
+
+See https://avd.aquasec.com/misconfig/azu-0056
+────────────────────────────────────────
+
+
+PASS: AZU-0057 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage Analytics logs detailed information about successful and failed requests to a storage service.
+This information can be used to monitor individual requests and to diagnose issues with a storage service.
+Logging should be enabled for at least one storage service type.
+
+
+See https://avd.aquasec.com/misconfig/azu-0057
+────────────────────────────────────────
+
+
+PASS: AZU-0058 (LOW): No issues found
+════════════════════════════════════════
+Geo-redundant storage (GRS) replicates your data to a secondary region that is hundreds of miles away from the primary region.
+This provides an additional level of durability for your data in the event of a complete regional outage or a disaster.
+Options include GRS, RAGRS, GZRS, and RAGZRS for geo-redundancy.
+
+
+See https://avd.aquasec.com/misconfig/azu-0058
+────────────────────────────────────────
+
+
+PASS: AZU-0059 (HIGH): No issues found
+════════════════════════════════════════
+Storage accounts should enforce HTTPS for secure data transfer and use a minimum TLS version of 1.2 or higher.
+This ensures that logs and data stored in the storage account are encrypted in transit.
+Azure Storage encrypts all data at rest by default, but transport encryption is also critical.
+
+
+See https://avd.aquasec.com/misconfig/azu-0059
+────────────────────────────────────────
+
+
+PASS: AZU-0060 (MEDIUM): No issues found
+════════════════════════════════════════
+Storage accounts should use customer-managed keys (CMK) for encryption to provide additional control over the encryption keys.
+Customer-managed keys allow you to create, rotate, disable, and revoke access controls.
+They also provide greater flexibility to audit the encryption keys that are used to protect your data.
+
+
+See https://avd.aquasec.com/misconfig/azu-0060
+────────────────────────────────────────
+
+
+PASS: AZU-0061 (MEDIUM): No issues found
+════════════════════════════════════════
+Infrastructure encryption provides an additional layer of encryption at the infrastructure level.
+When infrastructure encryption is enabled, data in the storage account is encrypted twice -
+once at the service level and once at the infrastructure level with two different encryption algorithms.
+This provides double encryption for enhanced security.
+
+
+See https://avd.aquasec.com/misconfig/azu-0061
+────────────────────────────────────────
+
+
+PASS: GCP-0027 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to allow connections from the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0027
+────────────────────────────────────────
+
+
+PASS: GCP-0029 (LOW): No issues found
+════════════════════════════════════════
+VPC flow logs record information about all traffic, which is a vital tool in reviewing anomalous traffic.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0029
+────────────────────────────────────────
+
+
+PASS: GCP-0030 (MEDIUM): No issues found
+════════════════════════════════════════
+Use of project-wide SSH keys means that a compromise of any one of these key pairs can result in all instances being compromised. It is recommended to use instance-level keys.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0030
+────────────────────────────────────────
+
+
+PASS: GCP-0031 (HIGH): No issues found
+════════════════════════════════════════
+Instances should not be publicly exposed to the internet
+
+
+See https://avd.aquasec.com/misconfig/gcp-0031
+────────────────────────────────────────
+
+
+PASS: GCP-0032 (MEDIUM): No issues found
+════════════════════════════════════════
+When serial port access is enabled, the access is not governed by network security rules meaning the port can be exposed publicly.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0032
+────────────────────────────────────────
+
+
+PASS: GCP-0033 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0033
+────────────────────────────────────────
+
+
+PASS: GCP-0034 (LOW): No issues found
+════════════════════════════════════════
+Using unmanaged keys makes rotation and general management difficult.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0034
+────────────────────────────────────────
+
+
+PASS: GCP-0035 (CRITICAL): No issues found
+════════════════════════════════════════
+Opening up ports to connect out to the public internet is generally to be avoided. You should restrict access to IP addresses or ranges that are explicitly required where possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0035
+────────────────────────────────────────
+
+
+PASS: GCP-0036 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0036
+────────────────────────────────────────
+
+
+PASS: GCP-0037 (CRITICAL): No issues found
+════════════════════════════════════════
+Sensitive values such as raw encryption keys should not be included in your Terraform code, and should be stored securely by a secrets manager.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0037
+────────────────────────────────────────
+
+
+PASS: GCP-0039 (CRITICAL): No issues found
+════════════════════════════════════════
+TLS versions prior to 1.2 are outdated and insecure. You should use 1.2 as aminimum version.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0039
+────────────────────────────────────────
+
+
+PASS: GCP-0041 (MEDIUM): No issues found
+════════════════════════════════════════
+The virtual TPM provides numerous security measures to your VM.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0041
+────────────────────────────────────────
+
+
+PASS: GCP-0042 (MEDIUM): No issues found
+════════════════════════════════════════
+OS Login automatically revokes the relevant SSH keys when an IAM user has their access revoked.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0042
+────────────────────────────────────────
+
+
+PASS: GCP-0043 (HIGH): No issues found
+════════════════════════════════════════
+Disabling IP forwarding ensures the instance can only receive packets addressed to the instance and can only send packets with a source address of the instance.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0043
+────────────────────────────────────────
+
+
+PASS: GCP-0044 (CRITICAL): No issues found
+════════════════════════════════════════
+The default service account has full project access. Instances should instead be assigned the minimal access they need.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0044
+────────────────────────────────────────
+
+
+PASS: GCP-0045 (MEDIUM): No issues found
+════════════════════════════════════════
+Integrity monitoring helps you understand and make decisions about the state of your VM instances.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0045
+────────────────────────────────────────
+
+
+PASS: GCP-0067 (MEDIUM): No issues found
+════════════════════════════════════════
+Secure boot helps ensure that the system only runs authentic software.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0067
+────────────────────────────────────────
+
+
+PASS: GCP-0070 (HIGH): No issues found
+════════════════════════════════════════
+Firewall rules should restrict RDP (TCP/3389) access to specific IP ranges. Open RDP access can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0070
+────────────────────────────────────────
+
+
+PASS: GCP-0071 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should restrict SSH (TCP/22) access to specific IPs. Open SSH can be a security risk.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0071
+────────────────────────────────────────
+
+
+PASS: GCP-0072 (MEDIUM): No issues found
+════════════════════════════════════════
+Firewall rules should not be wide open to all ports. Lock down rules to only required ports.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0072
+────────────────────────────────────────
+
+
+PASS: GCP-0073 (MEDIUM): No issues found
+════════════════════════════════════════
+Ensures that Google Cloud's default firewall rules are disabled, as they may be overly permissive and pose security risks.
+The default network comes with pre-populated firewall rules that allow broad access and should be replaced with more restrictive custom rules.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0073
+────────────────────────────────────────
+
+
+PASS: GCP-0074 (LOW): No issues found
+════════════════════════════════════════
+Firewall rules allowing broad port ranges can be risky. Ensure rules are as specific as possible.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0074
+────────────────────────────────────────
+
+
+PASS: GCP-0075 (LOW): No issues found
+════════════════════════════════════════
+Private Google Access allows instances in a subnet to reach Google APIs and services via internal IP, which should be enabled for private networks.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0075
+────────────────────────────────────────
+
+
+PASS: GCP-0076 (MEDIUM): No issues found
+════════════════════════════════════════
+Flow logs for subnets should be enabled to capture network traffic details for security analysis.
+
+
+See https://avd.aquasec.com/misconfig/gcp-0076
+────────────────────────────────────────
+
+

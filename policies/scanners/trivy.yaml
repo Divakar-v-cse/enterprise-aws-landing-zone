@@ -1,0 +1,30 @@
+# ---------------------------------------------------------------------------
+# Trivy configuration (IaC misconfiguration scanning)
+#
+#   trivy config . --config policies/scanners/trivy.yaml
+#
+# Secret scanning is delegated to scripts/secret_scan.py and GitHub secret
+# scanning so the same file is not reported twice with different rule names.
+# ---------------------------------------------------------------------------
+scan:
+  scanners:
+    - misconfig
+
+misconfiguration:
+  # Expired / missing ignores are visible in the report rather than silent.
+  include-non-failures: true
+
+severity:
+  - CRITICAL
+  - HIGH
+  - MEDIUM
+  - LOW
+
+quiet: true
+
+skip-dirs:
+  - .terraform
+  - .tools
+  - node_modules
+  - .scanner-cache
+  - artifacts

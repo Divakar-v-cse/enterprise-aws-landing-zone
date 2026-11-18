@@ -1,0 +1,66 @@
+# ---------------------------------------------------------------------------
+# STAGING environment values
+#
+# Staging mirrors the production topology: NAT egress, flow logs, CloudTrail,
+# KMS, alarms and backups are all enabled here *by configuration*, but
+# `zero_cost_mode = true` keeps them off until someone deliberately opts in.
+#
+# Rationale: staging exists to catch production-only failures. Its *code path*
+# must be identical to production; only capacity differs.
+# ---------------------------------------------------------------------------
+
+project_name = "eawlz"
+environment  = "staging"
+aws_region   = "us-east-1"
+
+aws_account_id = "111122223333"
+
+owner       = "platform-engineering"
+cost_center = "CC-STG-001"
+
+# --- Cost guard rails --------------------------------------------------------
+zero_cost_mode    = true # flip to false ONLY with an approved estimate
+offline_plan_mode = true # flip to false when CI runs with OIDC creds
+
+# Production-parity toggles (take effect when zero_cost_mode = false)
+enable_nat_gateway = true
+enable_flow_logs   = true
+enable_kms_key     = true
+enable_alarms      = true
+enable_cloudtrail  = true
+enable_backup_plan = true
+
+# --- Compute -----------------------------------------------------------------
+instance_count   = 2
+instance_type    = "t3.small"
+root_volume_size = 30
+
+# --- Networking (10.20.0.0/16) ----------------------------------------------
+vpc_cidr             = "10.20.0.0/16"
+public_subnet_cidrs  = ["10.20.0.0/20", "10.20.16.0/20", "10.20.32.0/20"]
+private_subnet_cidrs = ["10.20.128.0/20", "10.20.144.0/20", "10.20.160.0/20"]
+availability_zones   = ["us-east-1a", "us-east-1b", "us-east-1c"]
+az_count             = 3
+single_nat_gateway   = true
+
+allowed_ingress_cidrs = []
+app_port              = 8080
+
+# --- Storage lifecycle -------------------------------------------------------
+s3_transition_to_ia_days              = 30
+s3_noncurrent_version_expiration_days = 60
+
+# --- Observability -----------------------------------------------------------
+log_retention_days  = 30
+cpu_alarm_threshold = 80
+alarm_email         = ""
+
+# --- Backup (RPO 24h / RTO 4h target) ---------------------------------------
+backup_daily_retention_days   = 14
+backup_weekly_retention_days  = 30
+backup_monthly_retention_days = 90
+
+# --- CI/CD -------------------------------------------------------------------
+github_repository = "example-org/enterprise-aws-landing-zone"
+create_ci_role    = true
+state_bucket_name = "eawlz-terraform-state"

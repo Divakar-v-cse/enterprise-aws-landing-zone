@@ -1,0 +1,26 @@
+# Gitleaks configuration.
+#
+# Documentation, test fixtures and the scanner itself necessarily contain
+# *examples* of credential shapes. They are allowlisted by path, and the finding
+# values are redacted in every committed report.
+title = "Enterprise AWS Landing Zone"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Example credentials in docs, fixtures and the scanner implementation"
+paths = [
+  '''docs/TROUBLESHOOTING\.md''',
+  '''docs/SECURITY\.md''',
+  '''security/SECURITY_REPORT\.md''',
+  '''tests/fixtures/.*''',
+  '''scripts/lib/eawlz_core\.py''',
+  '''scripts/secret_scan\.py''',
+  '''tests/test_secret_scan\.py''',
+  '''\.trivyignore\.yaml''',
+]
+regexes = [
+  '''AKIAIOSFODNN7EXAMPLE''',
+  '''wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY''',
+]

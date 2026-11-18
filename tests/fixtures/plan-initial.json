@@ -1,0 +1,28 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.15.8",
+  "resource_changes": [
+    {
+      "address": "module.networking.aws_nat_gateway.this[0]",
+      "mode": "managed",
+      "type": "aws_nat_gateway",
+      "name": "this",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {"actions": ["create"], "before": null, "after": {"connectivity_type": "public"}}
+    },
+    {
+      "address": "module.compute.aws_instance.app[0]",
+      "mode": "managed",
+      "type": "aws_instance",
+      "name": "app",
+      "provider_name": "registry.terraform.io/hashicorp/aws",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": {"instance_type": "m6i.2xlarge",
+                  "root_block_device": [{"volume_size": 50, "volume_type": "gp3", "encrypted": true}]}
+      }
+    }
+  ],
+  "planned_values": {"root_module": {"resources": []}}
+}

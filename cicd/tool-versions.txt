@@ -1,0 +1,7 @@
+# Pinned tool versions - keep in sync with .github/workflows/*.yml and docs/INSTALLATION.md
+terraform=1.15.8
+tflint=0.53.0
+checkov=3.4.5
+trivy=0.76.2
+python=3.12
+awscli=2.x

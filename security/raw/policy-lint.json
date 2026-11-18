@@ -1,0 +1,11 @@
+{
+  "documents": 4,
+  "findings": [
+    {
+      "rule": "PL007",
+      "severity": "WARN",
+      "detail": "modules/iam/policies/permission-boundary.json.tftpl#AllowScopedWorkloadServices: PutObject on a whole-bucket wildcard - scope to a prefix"
+    }
+  ],
+  "status": "pass"
+}

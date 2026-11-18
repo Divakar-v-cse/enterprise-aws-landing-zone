@@ -1,0 +1,11 @@
+[PASS] modules/iam/policies/ci-terraform-deploy-policy.json.tftpl
+[PASS] modules/iam/policies/ec2-app-policy.json.tftpl
+[PASS] modules/iam/policies/github-oidc-trust.json.tftpl
+[PASS] modules/iam/policies/permission-boundary.json.tftpl
+
+RULE  | SEVERITY | DETAIL
+------+----------+------------------------------------------------------------------------------------------------------------------------------------------
+PL007 | WARN     | modules/iam/policies/permission-boundary.json.tftpl#AllowScopedWorkloadServices: PutObject on a whole-bucket wildcard - scope to a prefix
+
+Documents: 4 · failures: 0 · warnings: 1
+INFO    All policy documents passed least-privilege lint.

@@ -1,0 +1,131 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "ReadOwnConfigurationObjects",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": [
+        "${artifact_bucket_arn}/config/*",
+        "${artifact_bucket_arn}/releases/*"
+      ]
+    },
+    {
+      "Sid": "ListOwnBucketWithPrefixCondition",
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "${artifact_bucket_arn}"
+      ],
+      "Condition": {
+        "StringLike": {
+          "s3:prefix": [
+            "config/*",
+            "releases/*"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "WriteApplicationLogsToOwnPrefix",
+      "Effect": "Allow",
+      "Action": [
+        "s3:PutObject"
+      ],
+      "Resource": [
+        "${artifact_bucket_arn}/app-logs/*"
+      ]
+    },
+    {
+      "Sid": "WriteToOwnCloudWatchLogGroupOnly",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams"
+      ],
+      "Resource": [
+        "${log_group_arn}:*"
+      ]
+    },
+    {
+      "Sid": "PublishOwnMetrics",
+      "Effect": "Allow",
+      "Action": [
+        "cloudwatch:PutMetricData"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "cloudwatch:namespace": "${metric_namespace}"
+        }
+      }
+    },
+    {
+      "Sid": "SsmSessionManagerCore",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:UpdateInstanceInformation",
+        "ssmmessages:CreateControlChannel",
+        "ssmmessages:CreateDataChannel",
+        "ssmmessages:OpenControlChannel",
+        "ssmmessages:OpenDataChannel"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadOwnParameterPrefixOnly",
+      "Effect": "Allow",
+      "Action": [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ],
+      "Resource": [
+        "${ssm_parameter_arn_prefix}/*"
+      ]
+    },
+    {
+      "Sid": "GuardrailDenyIdentityManagement",
+      "Effect": "Deny",
+      "Action": [
+        "iam:*",
+        "organizations:*",
+        "account:*",
+        "sso:*",
+        "sso-admin:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "GuardrailDenyAuditAndSecurityTampering",
+      "Effect": "Deny",
+      "Action": [
+        "cloudtrail:StopLogging",
+        "cloudtrail:DeleteTrail",
+        "cloudtrail:UpdateTrail",
+        "guardduty:DeleteDetector",
+        "guardduty:DisassociateFromMasterAccount",
+        "config:DeleteConfigRule",
+        "config:StopConfigurationRecorder",
+        "kms:ScheduleKeyDeletion",
+        "kms:DisableKey"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "GuardrailDenyPolicyWidening",
+      "Effect": "Deny",
+      "Action": [
+        "s3:PutBucketPolicy",
+        "s3:PutBucketAcl",
+        "s3:PutBucketPublicAccessBlock",
+        "s3:DeleteBucket"
+      ],
+      "Resource": "*"
+    }
+  ]
+}

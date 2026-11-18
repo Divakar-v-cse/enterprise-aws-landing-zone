@@ -1,0 +1,57 @@
+{
+  "_README": "Mandatory tag policy enforced by scripts/tagging_validator.py and provider default_tags.",
+  "version": "1.0",
+  "enforcement": "ci-blocking",
+  "required_tags": {
+    "Project": {
+      "description": "Short project identifier used for chargeback and ownership.",
+      "example": "eawlz",
+      "enforced": true
+    },
+    "Environment": {
+      "description": "dev | staging | production. Drives backup selection and access policy.",
+      "allowed_values": ["dev", "staging", "production"],
+      "enforced": true
+    },
+    "ManagedBy": {
+      "description": "terraform for anything in this repository; manual otherwise and flagged for import.",
+      "allowed_values": ["terraform", "manual"],
+      "enforced": true
+    },
+    "Owner": {
+      "description": "Team accountable for the resource and its cost.",
+      "example": "platform-engineering",
+      "enforced": true
+    },
+    "CostCenter": {
+      "description": "Finance code used for internal chargeback.",
+      "example": "CC-DEV-001",
+      "enforced": true
+    },
+    "Backup": {
+      "description": "Opt-in flag for the AWS Backup selection.",
+      "allowed_values": ["true", "false"],
+      "enforced": false,
+      "note": "Validated as a warning: stateless resources do not need backups."
+    },
+    "DataClass": {
+      "description": "internal | confidential | restricted. Drives encryption and sharing policy.",
+      "allowed_values": ["internal", "confidential", "restricted"],
+      "enforced": false
+    }
+  },
+  "resource_type_exemptions": [
+    "aws_route",
+    "aws_route_table_association",
+    "aws_security_group_rule",
+    "aws_iam_role_policy",
+    "aws_iam_role_policy_attachment",
+    "aws_s3_bucket_policy",
+    "aws_s3_bucket_versioning",
+    "aws_s3_bucket_public_access_block",
+    "aws_s3_bucket_ownership_controls",
+    "aws_s3_bucket_server_side_encryption_configuration",
+    "aws_s3_bucket_lifecycle_configuration"
+  ],
+  "rationale": "AWS does not expose a tagging API for these resource types; tagging them is impossible, not optional."
+}

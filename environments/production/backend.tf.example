@@ -1,0 +1,26 @@
+###############################################################################
+# Remote state backend - EXAMPLE ONLY
+#
+# 1. Bootstrap the state bucket and lock table first (see ../../bootstrap).
+# 2. Copy this file:   cp backend.tf.example backend.tf
+# 3. Replace the placeholder values with your bootstrap outputs.
+# 4. Initialise and migrate:   terraform init -migrate-state
+#
+# `backend.tf` is git-ignored: state configuration is environment-specific and
+# must not be hard-coded for every contributor.
+###############################################################################
+
+terraform {
+  backend "s3" {
+    bucket         = "eawlz-terraform-state"       # from bootstrap output
+    key            = "landing-zone/production/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true                          # SSE on the state object
+    kms_key_id     = "alias/eawlz-terraform-state" # optional CMK for state
+    dynamodb_table = "eawlz-terraform-locks"       # state locking
+
+    # Deny accidental state loss: versioning must be enabled on the bucket.
+    skip_credentials_validation = false
+    skip_region_validation      = false
+  }
+}

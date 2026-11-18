@@ -1,0 +1,50 @@
+{
+  "_README": [
+    "INDICATIVE PLANNING CATALOGUE - NOT A BILL, NOT A QUOTE, NOT LIVE PRICING.",
+    "Values are rounded us-east-1 on-demand list prices captured for this portfolio",
+    "project and are used only to catch obvious cost mistakes before an apply.",
+    "Always confirm with the AWS Pricing Calculator before approving spend."
+  ],
+  "catalog_version": "2026-11-01",
+  "region_reference": "us-east-1",
+  "currency": "USD",
+  "hours_per_month": 730,
+  "prices": {
+    "ec2_hourly_usd": {
+      "t3.nano": 0.0052,
+      "t3.micro": 0.0104,
+      "t3.small": 0.0208,
+      "t3.medium": 0.0416,
+      "t3.large": 0.0832,
+      "m7i.large": 0.1008,
+      "m7i.xlarge": 0.2016,
+      "m7g.large": 0.0816,
+      "c7i.large": 0.0893,
+      "c7g.large": 0.0725
+    },
+    "ebs_gp3_per_gb_month_usd": 0.08,
+    "nat_gateway_hourly_usd": 0.045,
+    "nat_gateway_per_gb_usd": 0.045,
+    "eip_hourly_usd": 0.005,
+    "kms_key_month_usd": 1.0,
+    "cloudwatch_alarm_month_usd": 0.1,
+    "cloudwatch_logs_ingest_per_gb_usd": 0.5,
+    "cloudwatch_logs_storage_per_gb_month_usd": 0.03,
+    "backup_warm_per_gb_month_usd": 0.05,
+    "backup_cold_per_gb_month_usd": 0.01,
+    "s3_standard_per_gb_month_usd": 0.023,
+    "s3_standard_ia_per_gb_month_usd": 0.0125
+  },
+  "free_tier_notes": [
+    "Gateway VPC endpoints (S3, DynamoDB) have no hourly or data charge.",
+    "The first copy of CloudTrail management events is free.",
+    "SSE-S3 and AWS-managed KMS keys have no key charge.",
+    "VPC, subnets, route tables, internet gateways, security groups and NACLs are free.",
+    "AWS Backup vault creation is free; stored recovery points are not."
+  ],
+  "budget_example": {
+    "monthly_budget_usd": 50,
+    "alerts": ["80% actual", "100% forecasted"],
+    "note": "See policies/budgets/budget.json for the AWS Budgets Terraform-ready shape."
+  }
+}

@@ -1,0 +1,54 @@
+# ---------------------------------------------------------------------------
+# DEV environment values
+#
+# Safe by default: zero-cost mode is ON, so nothing billable can be created
+# even if someone runs `terraform apply` against a real account.
+# ---------------------------------------------------------------------------
+
+project_name = "eawlz"
+environment  = "dev"
+aws_region   = "us-east-1"
+
+# Replace with your real 12-digit account ID before any real deployment.
+# Keeping the placeholder makes bucket names deterministic for offline plans.
+aws_account_id = "111122223333"
+
+owner       = "platform-engineering"
+cost_center = "CC-DEV-001"
+
+# --- Cost guard rails --------------------------------------------------------
+zero_cost_mode = true
+
+# The flags below are intentionally left at their defaults so that enabling a
+# billable resource requires two deliberate edits: zero_cost_mode = false AND
+# the specific flag. See docs/COST_MANAGEMENT.md.
+enable_nat_gateway = false
+enable_flow_logs   = false
+enable_kms_key     = false
+enable_alarms      = false
+enable_cloudtrail  = false
+enable_backup_plan = false
+
+# --- Compute -----------------------------------------------------------------
+instance_count   = 0
+instance_type    = "t3.micro"
+root_volume_size = 20
+
+# --- Networking (10.10.0.0/16) ----------------------------------------------
+vpc_cidr             = "10.10.0.0/16"
+public_subnet_cidrs  = ["10.10.0.0/20", "10.10.16.0/20", "10.10.32.0/20"]
+private_subnet_cidrs = ["10.10.128.0/20", "10.10.144.0/20", "10.10.160.0/20"]
+availability_zones   = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+# No public ingress: administration is SSM-only.
+allowed_ingress_cidrs = []
+app_port              = 8080
+
+# --- Observability -----------------------------------------------------------
+log_retention_days = 14
+alarm_email        = ""
+
+# --- CI/CD -------------------------------------------------------------------
+github_repository = "example-org/enterprise-aws-landing-zone"
+create_ci_role    = true
+state_bucket_name = "eawlz-terraform-state"

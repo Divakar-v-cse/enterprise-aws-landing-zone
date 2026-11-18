@@ -1,0 +1,91 @@
+name: Terraform validate
+
+on:
+  pull_request:
+    paths:
+      - "**.tf"
+      - "**.tftpl"
+      - "**.tfvars"
+      - ".github/workflows/**"
+  push:
+    branches: [main]
+    paths:
+      - "**.tf"
+      - "**.tftpl"
+
+permissions:
+  contents: read
+
+env:
+  TF_IN_AUTOMATION: "1"
+  TF_INPUT: "0"
+
+jobs:
+  format:
+    name: terraform fmt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+          terraform_wrapper: false
+      - name: Check formatting
+        run: terraform fmt -recursive -check -diff
+
+  validate:
+    name: validate (${{ matrix.environment }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        environment: [dev, staging, production]
+    defaults:
+      run:
+        working-directory: environments/${{ matrix.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+          terraform_wrapper: false
+      - name: terraform init (no backend)
+        run: terraform init -backend=false -input=false -no-color
+      - name: terraform validate
+        run: terraform validate -no-color
+      - name: Offline plan (zero-cost mode, no credentials)
+        run: terraform plan -input=false -no-color -out=plan.tfplan
+      - name: Plan summary
+        run: terraform show -no-color plan.tfplan | tail -n 40
+
+  tflint:
+    name: tflint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: terraform-linters/setup-tflint@v4
+        with:
+          tflint_version: latest
+      - name: Init TFLint plugins
+        run: tflint --init
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run TFLint
+        run: tflint --recursive --format compact
+
+  python-tests:
+    name: python tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip pytest pyyaml
+      - name: Run unit tests
+        run: python -m pytest tests -q
+      - name: Documentation lint
+        run: python scripts/docs_lint.py
+      - name: IAM policy lint
+        run: python scripts/policy_lint.py

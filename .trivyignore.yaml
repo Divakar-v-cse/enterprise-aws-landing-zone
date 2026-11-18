@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# Trivy accepted risks
+#
+# Each entry needs a statement explaining WHY the risk is accepted, and an
+# expiry date so it is re-reviewed instead of forgotten. Trivy reports expired
+# ignores as still-failing findings.
+#
+# Path scoping is intentionally omitted: Trivy reports module targets relative
+# to the environment directory being scanned (e.g. ../../modules/networking),
+# so a path-scoped ignore would silently stop matching.
+#
+# Used via:  trivy config . --ignorefile .trivyignore.yaml
+# ---------------------------------------------------------------------------
+misconfigurations:
+  - id: AWS-0104
+    statement: >-
+      The application security group allows TCP/443 egress to 0.0.0.0/0 because
+      instances must reach OS package repositories and AWS public APIs. All
+      inbound traffic is closed and 443 egress is the only internet path;
+      production can restrict this further with AWS prefix lists and interface
+      endpoints (docs/NETWORKING.md section 6).
+    expired_at: 2027-06-30
+
+  - id: AWS-0178
+    statement: >-
+      VPC Flow Logs are billable and therefore opt-in (enable_flow_logs), which is
+      a core requirement of zero-cost validation mode. Staging and production
+      profiles enable them.
+    expired_at: 2027-06-30
+
+  - id: AWS-0089
+    statement: >-
+      S3 server access logging is replaced by CloudTrail management events plus a
+      TLS-only bucket policy. A dedicated logging bucket doubles storage cost and
+      is enabled in production via enable_access_logging = true.
+    expired_at: 2027-06-30
+
+  - id: AWS-0132
+    statement: >-
+      The Terraform state bucket is created by the bootstrap configuration, which
+      must not depend on a customer managed KMS key it does not yet manage (chicken
+      and egg: the key would need its own state). The bucket is encrypted with
+      SSE-S3, versioned, public-access-blocked and TLS-only, and is reachable only
+      by IAM principals in the account. Environments use a CMK for their own data.
+    expired_at: 2027-06-30
+
+  - id: AWS-0025
+    statement: >-
+      The DynamoDB lock table stores only lock IDs and timestamps, never resource
+      data. AWS-managed encryption at rest plus point-in-time recovery is sufficient;
+      a CMK here adds ~$1/month and an ordering dependency in the bootstrap step.
+    expired_at: 2027-06-30

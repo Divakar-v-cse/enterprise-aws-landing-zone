@@ -1,0 +1,114 @@
+# ---------------------------------------------------------------------------
+# Checkov configuration
+#
+# Every skip below is an ACCEPTED RISK with a written justification, reviewed in
+# the same PR as the code it covers. Skips are per check ID (never per
+# directory) so a new violation of the same class in new code still fails CI.
+#
+# Authoritative run:
+#   checkov -d . --framework terraform --config-file policies/scanners/checkov.yaml
+#
+# Results are summarised in security/SECURITY_REPORT.md.
+# ---------------------------------------------------------------------------
+framework:
+  - terraform
+
+directory:
+  - .
+
+compact: true
+quiet: true
+
+skip-check:
+  # -- Cost decisions (documented, deliberate) -------------------------------
+
+  # CKV_AWS_18 - S3 server access logging.
+  # A logging bucket doubles request-log storage. The security need is covered by
+  # CloudTrail (management events, log file validation) and the TLS-only bucket
+  # policy. Production enables it with enable_access_logging = true.
+  - CKV_AWS_18
+
+  # CKV_AWS_126 - EC2 detailed monitoring.
+  # 1-minute metrics are billed per instance. Basic 5-minute metrics are enough
+  # for this workload; enable_detailed_monitoring = true in staging/production.
+  - CKV_AWS_126
+
+  # CKV_AWS_338 - CloudWatch log group retention >= 1 year.
+  # 365-day retention on high-volume flow logs is a deliberate cost trade-off.
+  # Application log groups retain 90 days and audit groups 365 days; flow logs
+  # default to 30 days and are configurable via flow_logs_retention_days.
+  - CKV_AWS_338
+
+  # -- Available only with a customer managed KMS key ------------------------
+
+  # CKV_AWS_158 - CloudWatch Logs encrypted by CMK.
+  # Zero-cost mode has no CMK ($1/key/month); production sets enable_kms_key=true,
+  # which wires kms_key_id into every log group.
+  - CKV_AWS_158
+
+  # CKV_AWS_45 - VPC Flow Logs enabled.
+  # Flow logs are billable and therefore opt-in: enabled in the staging and
+  # production profiles, disabled by design in the zero-cost profile.
+  - CKV_AWS_45
+
+  # -- KMS key policy necessarily uses Resource "*" --------------------------
+
+  # CKV_AWS_109 / CKV_AWS_111 / CKV_AWS_356 - policy allows "*" resource or
+  # permissions management without constraints.
+  # A KMS key policy must use Resource "*" (it applies to the key itself) and
+  # must delegate to the account root so IAM policies can grant usage. The policy
+  # compensates with a split administrator/usage statement and an MFA-gated deny
+  # on key deletion.
+  - CKV_AWS_109
+  - CKV_AWS_111
+  - CKV_AWS_356
+
+  # -- Documented false positives -------------------------------------------
+
+  # CKV_AWS_300 - "lifecycle configuration sets period for aborting failed
+  # uploads". The rule exists (modules/s3/main.tf: abort_incomplete_multipart_upload
+  # with days_after_initiation = 7). Checkov does not attribute the abort block
+  # when it sits in its own rule with an explicit empty prefix.
+  - CKV_AWS_300
+
+  # CKV_AWS_231 - "NACL allow ingress 0.0.0.0:0 to 3389".
+  # The flagged rule is `protocol = -1` allow from var.vpc_cidr (private subnets).
+  # Checkov cannot resolve the variable and assumes 0.0.0.0/0. No rule permits
+  # RDP from the internet: the public NACL allows only 80, 443 and ephemeral ports.
+  - CKV_AWS_231
+
+  # CKV2_AWS_5 - "security groups are attached to another resource".
+  # Groups are created in modules/networking and attached in modules/ec2;
+  # cross-module graph resolution does not follow that boundary.
+  - CKV2_AWS_5
+
+  # -- Out of scope for this iteration (tracked, not forgotten) --------------
+
+  # CKV_AWS_252 - CloudTrail SNS topic. Alerts arrive through the CloudWatch
+  # alarm topic instead; a dedicated trail-delivery topic is planned with the
+  # security-notification work.
+  - CKV_AWS_252
+
+  # CKV2_AWS_10 - CloudTrail integrated with CloudWatch Logs (metric filters).
+  # Adds log ingestion cost; scheduled with the detection-engineering backlog.
+  - CKV2_AWS_10
+
+  # CKV2_AWS_62 - S3 event notifications. Nothing consumes bucket events yet.
+  - CKV2_AWS_62
+
+  # CKV_AWS_144 - S3 cross-region replication.
+  # The DR strategy is backup-based (docs/DISASTER_RECOVERY.md) plus IaC
+  # recreation; replication is the next step when RPO drops below 24h.
+  - CKV_AWS_144
+
+  # -- Bootstrap state backend (bootstrap/main.tf) ---------------------------
+
+  # CKV_AWS_119 / CKV_AWS_145 - DynamoDB and S3 encrypted with an AWS-managed
+  # key instead of a customer managed CMK.
+  # The bootstrap configuration deliberately depends on nothing: creating a CMK
+  # before the state bucket adds an ordering problem and ~$1/month for a table
+  # that holds only lock IDs and a bucket holding state that is already
+  # SSE-encrypted, versioned and TLS-only. A CMK is used for the environments
+  # themselves, where the data justifies it.
+  - CKV_AWS_119
+  - CKV_AWS_145

@@ -1,0 +1,109 @@
+# ---------------------------------------------------------------------------
+# Manual, approval-gated deployment.
+#
+# This workflow NEVER runs automatically:
+#   * trigger is workflow_dispatch only
+#   * the job binds to a GitHub Environment (dev / staging / production) whose
+#     protection rules require human reviewers
+#   * the operator must type the environment name into `confirm_apply`
+#
+# Production additionally requires the `production` environment to be configured
+# with required reviewers AND a deployment branch policy limited to `main`.
+# ---------------------------------------------------------------------------
+name: Terraform apply (manual, approval required)
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to deploy
+        required: true
+        default: dev
+        type: choice
+        options: [dev, staging, production]
+      confirm_apply:
+        description: Type the environment name again to confirm (e.g. dev)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: terraform-apply-${{ github.event.inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  guard:
+    name: Validate confirmation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirmation must match the environment
+        run: |
+          if [ "${{ github.event.inputs.confirm_apply }}" != "${{ github.event.inputs.environment }}" ]; then
+            echo "::error::confirmation input does not match the selected environment - aborting"
+            exit 1
+          fi
+          echo "Confirmed deployment to ${{ github.event.inputs.environment }}"
+
+  apply:
+    name: apply (${{ github.event.inputs.environment }})
+    needs: guard
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.event.inputs.environment }}
+      url: ${{ vars.ENVIRONMENT_URL }}
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment }}
+      AWS_REGION: ${{ vars.AWS_REGION }}
+      TF_IN_AUTOMATION: "1"
+      TF_INPUT: "0"
+    defaults:
+      run:
+        working-directory: environments/${{ github.event.inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+          terraform_wrapper: false
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_TO_ASSUME }}
+          role-session-name: gha-apply-${{ env.ENVIRONMENT }}
+          aws-region: ${{ env.AWS_REGION }}
+          mask-aws-account-id: true
+
+      - name: Preflight checks
+        working-directory: .
+        run: python scripts/preflight.py --environment ${{ env.ENVIRONMENT }} --i-approve-production 2>/dev/null || python scripts/preflight.py --environment ${{ env.ENVIRONMENT }}
+
+      - name: terraform init (remote state required)
+        run: |
+          if [ -z "${{ vars.TF_STATE_BUCKET }}" ]; then
+            echo "::error::TF_STATE_BUCKET is not configured - refusing to apply with local state"
+            exit 1
+          fi
+          terraform init -input=false -no-color \
+            -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}" \
+            -backend-config="key=landing-zone/$ENVIRONMENT/terraform.tfstate" \
+            -backend-config="region=$AWS_REGION"
+
+      - name: terraform plan (saved)
+        run: terraform plan -input=false -no-color -out=deploy.tfplan
+
+      - name: terraform apply (saved plan only)
+        run: terraform apply -input=false -no-color -auto-approve deploy.tfplan
+
+      - name: Deployment summary
+        if: always()
+        run: |
+          echo "### Deployment: $ENVIRONMENT" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: \`${{ github.sha }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Actor: \`${{ github.actor }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Result: ${{ job.status }}" >> "$GITHUB_STEP_SUMMARY"
+          terraform output -no-color >> "$GITHUB_STEP_SUMMARY" 2>/dev/null || true

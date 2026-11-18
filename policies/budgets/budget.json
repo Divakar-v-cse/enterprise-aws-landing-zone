@@ -1,0 +1,39 @@
+{
+  "_README": [
+    "AWS Budgets definition (Terraform-ready shape). Not applied by this project.",
+    "AWS Budgets itself is free; the first two budget actions are free, further",
+    "actions are billed. See docs/COST_MANAGEMENT.md for the wiring example."
+  ],
+  "budget": {
+    "name": "eawlz-monthly",
+    "budget_type": "COST",
+    "time_unit": "MONTHLY",
+    "limit_amount": "50.0",
+    "limit_unit": "USD",
+    "cost_filters": {
+      "TagKeyValue": [
+        "user:Project$eawlz"
+      ]
+    },
+    "notifications": [
+      {
+        "comparison_operator": "GREATER_THAN",
+        "threshold": 80,
+        "threshold_type": "PERCENTAGE",
+        "notification_type": "ACTUAL",
+        "subscriber_email_addresses": ["platform-engineering@example.com"]
+      },
+      {
+        "comparison_operator": "GREATER_THAN",
+        "threshold": 100,
+        "threshold_type": "PERCENTAGE",
+        "notification_type": "FORECASTED",
+        "subscriber_email_addresses": ["platform-engineering@example.com"]
+      }
+    ]
+  },
+  "terraform_equivalent": {
+    "resource": "aws_budgets_budget",
+    "notes": "Use limit_unit = \"USD\", time_unit = \"MONTHLY\", and cost_filter { name = \"TagKeyValue\", values = [\"user:Project$eawlz\"] }."
+  }
+}

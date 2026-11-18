@@ -1,0 +1,9 @@
+=== environments/dev ===
+Success! The configuration is valid.
+
+=== environments/staging ===
+Success! The configuration is valid.
+
+=== environments/production ===
+Success! The configuration is valid.
+

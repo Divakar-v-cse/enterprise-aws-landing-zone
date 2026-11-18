@@ -1,0 +1,63 @@
+%% Enterprise AWS Landing Zone - design diagram
+%% Rendered PNG: diagrams/aws-landing-zone-architecture.png
+%% NOTE: this is a DESIGN diagram. No AWS resources were deployed to produce it.
+flowchart TB
+    subgraph ORG["AWS Accounts (isolated)"]
+        direction LR
+        DEV["dev account<br/>10.10.0.0/16"]
+        STG["staging account<br/>10.20.0.0/16"]
+        PRD["production account<br/>10.30.0.0/16"]
+    end
+
+    subgraph PRDVPC["production VPC 10.30.0.0/16 - 3 AZs"]
+        IGW["Internet Gateway"]
+        subgraph PUB["Public subnets x3"]
+            NAT["NAT Gateway per AZ"]
+        end
+        subgraph PRIV["Private subnets x3"]
+            APP["EC2 app tier<br/>IMDSv2 - no SSH - SSM only"]
+            VPCE["S3 Gateway Endpoint (free)"]
+        end
+        SG["Security groups<br/>app: no inbound<br/>db: app tier only"]
+        NACL["NACLs<br/>public 80/443/ephemeral"]
+    end
+
+    subgraph SEC["Security and identity"]
+        KMS["KMS CMK<br/>rotation - MFA delete deny"]
+        WROLE["Workload role<br/>scoped policy + boundary"]
+        OIDC["GitHub OIDC role<br/>no access keys"]
+    end
+
+    subgraph OBS["Observability and audit"]
+        LOGS["CloudWatch log groups<br/>14/30/90/365 d retention"]
+        DASH["CloudWatch dashboard"]
+        ALARM["Alarms + SNS (opt-in)"]
+        CT["CloudTrail multi-region<br/>log file validation"]
+    end
+
+    subgraph RES["Data and resilience"]
+        S3["S3 artifacts<br/>SSE - versioned - PAB x4"]
+        BKP["AWS Backup vault<br/>daily 35 / weekly 90 / monthly 365"]
+    end
+
+    subgraph CICD["Delivery"]
+        GH["GitHub Actions"]
+        PLAN["plan artefact + cost guard"]
+        APPROVE["Protected environment<br/>2 reviewers + typed confirmation"]
+    end
+
+    GH --> PLAN --> APPROVE
+    APPROVE -->|OIDC| PRD
+    OIDC --> WROLE
+    WROLE --> APP
+    KMS --> S3
+    KMS --> LOGS
+    APP --> LOGS --> DASH
+    LOGS --> ALARM
+    APP --> S3
+    APP --> VPCE
+    PRIV -->|"egress 443"| NAT --> IGW
+    S3 --> BKP
+    CT --> S3
+    DEV -.->|same modules| PRDVPC
+    STG -.->|same modules| PRDVPC
