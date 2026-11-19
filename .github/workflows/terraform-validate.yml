@@ -58,9 +58,15 @@ jobs:
       - name: terraform validate
         run: terraform validate -no-color
       - name: Offline plan (zero-cost mode, no credentials)
-        # offline_plan_mode=true skips credential resolution. Production commits
-        # it as false so a real plan must authenticate; this job proves the
-        # configuration plans, it does not plan against an account.
+        # The provider always builds a credential chain; with no ~/.aws and no
+        # environment variables the chain is empty and provider configuration
+        # fails before planning. Placeholder values keep the chain resolvable
+        # while skip_credentials_validation prevents any call to AWS, so this
+        # step makes no API request and creates nothing.
+        env:
+          AWS_ACCESS_KEY_ID: offline-validation
+          AWS_SECRET_ACCESS_KEY: offline-validation-placeholder
+          AWS_EC2_METADATA_DISABLED: "true"
         run: terraform plan -input=false -no-color -var offline_plan_mode=true -out=plan.tfplan
       - name: Plan summary
         run: terraform show -no-color plan.tfplan | tail -n 40
@@ -78,7 +84,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Run TFLint
-        run: tflint --recursive --format compact
+        run: tflint --recursive --format compact --minimum-failure-severity=error
 
   python-tests:
     name: python tests

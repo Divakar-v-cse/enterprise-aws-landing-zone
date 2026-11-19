@@ -39,12 +39,6 @@ variable "aws_account_id" {
   }
 }
 
-variable "aws_region" {
-  description = "Primary AWS region (used for log group and SSM parameter ARNs)."
-  type        = string
-  default     = "us-east-1"
-}
-
 variable "approved_regions" {
   description = "Regions where the workload and CI roles may operate. Used in permission boundary region guardrails."
   type        = list(string)

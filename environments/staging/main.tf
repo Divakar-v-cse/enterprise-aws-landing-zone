@@ -118,7 +118,6 @@ module "iam" {
   name_prefix              = local.name_prefix
   environment              = var.environment
   aws_account_id           = var.aws_account_id
-  aws_region               = var.aws_region
   approved_regions         = [var.aws_region]
   artifact_bucket_arn      = module.s3.bucket_arn
   log_group_arn            = "arn:aws:logs:${var.aws_region}:${var.aws_account_id}:log-group:${local.app_log_group}"

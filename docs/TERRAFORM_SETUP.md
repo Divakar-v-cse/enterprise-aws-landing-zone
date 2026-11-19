@@ -43,6 +43,19 @@ creates nothing, which fails without credentials. With these switches and no dat
 sources in the configuration, `plan` makes zero network calls. That is why the
 availability zones, region and account ID are inputs rather than lookups.
 
+The provider still builds a credential chain even when validation is skipped, so
+on a machine with no AWS configuration at all (a fresh CI runner) `plan` fails at
+provider configuration with `No valid credential sources found`. Supply throwaway
+values for the chain — no call is made when validation is skipped:
+
+```bash
+export AWS_ACCESS_KEY_ID=offline-validation
+export AWS_SECRET_ACCESS_KEY=offline-validation-placeholder
+export AWS_EC2_METADATA_DISABLED=true
+```
+
+These are placeholders, not credentials: they cannot authenticate anything.
+
 Set it to `false` before any real deployment, otherwise the provider cannot read
 actual infrastructure and the plan is meaningless.
 

@@ -86,12 +86,6 @@ variable "access_log_bucket" {
   default     = ""
 }
 
-variable "enable_replication" {
-  description = "Reserved for cross-region replication. Requires a destination bucket in another region."
-  type        = bool
-  default     = false
-}
-
 variable "tags" {
   description = "Common tags applied to every resource in this module."
   type        = map(string)
