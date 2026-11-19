@@ -1,0 +1,57 @@
+{
+  "_README": "Sanitised build inputs for frontend/index.html. No attribute values.",
+  "by_module": {
+    "backup": 1,
+    "iam": 9,
+    "monitoring": 4,
+    "networking": 24,
+    "s3": 8
+  },
+  "checkov_failed": 0,
+  "checkov_passed": 202,
+  "commit": "6169d07",
+  "environments": [
+    {
+      "backup": false,
+      "cidr": "10.10.0.0/16",
+      "cloudtrail": false,
+      "cost_mode": true,
+      "instance_type": "t3.micro",
+      "instances": 0,
+      "kms": false,
+      "name": "dev",
+      "nat": false,
+      "retention": 14
+    },
+    {
+      "backup": true,
+      "cidr": "10.20.0.0/16",
+      "cloudtrail": true,
+      "cost_mode": true,
+      "instance_type": "t3.small",
+      "instances": 2,
+      "kms": true,
+      "name": "staging",
+      "nat": true,
+      "retention": 30
+    },
+    {
+      "backup": true,
+      "cidr": "10.30.0.0/16",
+      "cloudtrail": true,
+      "cost_mode": true,
+      "instance_type": "m7i.large",
+      "instances": 3,
+      "kms": true,
+      "name": "production",
+      "nat": true,
+      "retention": 90
+    }
+  ],
+  "policy_failures": 0,
+  "policy_warnings": 1,
+  "secret_findings": 0,
+  "tests": "73 passed in 1.73s",
+  "total": 46,
+  "trivy_failures": 0
+}

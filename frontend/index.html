@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enterprise AWS Landing Zone &middot; project console</title>
+<meta name="description" content="Read-only console for the Enterprise AWS Landing Zone: modules, environments, validation and security evidence.">
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --panel-2: #1c2330; --line: #2b3441;
+    --ink: #e6edf3; --muted: #9aa7b6; --accent: #58a6ff; --ok: #3fb950;
+    --warn: #d29922; --bad: #f85149; --radius: 12px;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f8fa; --panel: #ffffff; --panel-2: #f0f3f6; --line: #d7dee6;
+      --ink: #11161d; --muted: #5a6673; --accent: #0a5cc2;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 20px 64px; }
+  header.hero { display: grid; gap: 14px; margin-bottom: 28px; }
+  .eyebrow {
+    font: 600 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent);
+  }
+  h1 { font-size: clamp(26px, 4vw, 40px); margin: 0; letter-spacing: -.02em; line-height: 1.15; }
+  .lede { color: var(--muted); max-width: 68ch; margin: 0; }
+  .banner {
+    display: flex; gap: 10px; align-items: flex-start; border: 1px solid var(--line);
+    border-left: 3px solid var(--warn); border-radius: var(--radius);
+    background: var(--panel); padding: 12px 14px; font-size: 14px; color: var(--muted);
+  }
+  .banner strong { color: var(--ink); }
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; margin: 26px 0 34px; }
+  .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .kpi .v { font: 700 30px/1 var(--mono); letter-spacing: -.02em; }
+  .kpi .v.good { color: var(--ok); }
+  .kpi .l { color: var(--muted); font-size: 13px; margin-top: 6px; }
+  h2 { font-size: 20px; margin: 38px 0 14px; letter-spacing: -.01em; }
+  h2 .sub { color: var(--muted); font-weight: 400; font-size: 14px; margin-left: 8px; }
+  .flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+  .step { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; position: relative; }
+  .step .n { font: 700 11px/1 var(--mono); color: var(--accent); letter-spacing: .08em; }
+  .step h4 { margin: 8px 0 4px; font-size: 14px; }
+  .step p { margin: 0; font-size: 12.5px; color: var(--muted); }
+  .step.gate { border-color: var(--warn); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; }
+  .card h3 { margin: 0 0 10px; font: 600 14px/1.3 var(--mono); color: var(--accent); }
+  .card .count { margin: 0 0 8px; font: 700 24px/1 var(--mono); }
+  .card .count span { font: 400 12px/1 var(--mono); color: var(--muted); margin-left: 6px; }
+  .card .note { margin: 0; font-size: 13px; color: var(--muted); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+  th, td { padding: 11px 13px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  thead th { font: 600 12px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+  tbody th { font-family: var(--mono); font-weight: 600; }
+  td.on { color: var(--ok); }
+  td.off { color: var(--muted); }
+  code { font: .92em var(--mono); background: var(--panel-2); padding: 2px 6px; border-radius: 6px; }
+  .evidence { display: grid; gap: 8px; }
+  .ev { display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: center; padding: 11px 14px;
+        background: var(--panel); border: 1px solid var(--line); border-radius: 10px; font-size: 14px; }
+  .ev .name { font-family: var(--mono); font-size: 13px; }
+  .ev .val { font: 600 13px/1 var(--mono); color: var(--ok); }
+  .ev .val.bad { color: var(--bad); }
+  .ev .val.warn { color: var(--warn); }
+  .ev a { color: var(--accent); text-decoration: none; font-size: 13px; }
+  .ev a:hover { text-decoration: underline; }
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+  footer code { font-size: 12px; }
+  .two { display: grid; grid-template-columns: 1.1fr .9fr; gap: 14px; }
+  @media (max-width: 800px) { .two { grid-template-columns: 1fr; } }
+  ul.plain { margin: 0; padding-left: 18px; color: var(--muted); font-size: 13.5px; }
+  ul.plain li { margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Terraform &middot; AWS &middot; DevSecOps</div>
+    <h1>Enterprise AWS Landing Zone</h1>
+    <p class="lede">Secure multi-environment AWS infrastructure automation. Seven reusable
+    Terraform modules composed into isolated <code>dev</code>, <code>staging</code> and
+    <code>production</code> environments, validated offline at zero cost and delivered through
+    an approval-gated pipeline.</p>
+    <div class="banner">
+      <span aria-hidden="true">&#9888;</span>
+      <div><strong>Nothing is deployed.</strong> Every figure below was produced by a real
+      <code>terraform plan</code> and by static analysis run on commit <code>6169d07</code>.
+      No AWS resource exists, so this project has no public IP address by design: workloads sit in
+      private subnets with no load balancer and no public ingress.</div>
+    </div>
+  </header>
+
+  <section class="kpis" aria-label="Key figures">
+    <div class="kpi"><div class="v">46</div><div class="l">resources described by the dev plan</div></div>
+    <div class="kpi"><div class="v good">202</div><div class="l">Checkov checks passed &middot; 0 failed</div></div>
+    <div class="kpi"><div class="v good">0</div><div class="l">Trivy IaC failures after reviewed exceptions</div></div>
+    <div class="kpi"><div class="v">73</div><div class="l">Python tests passing</div></div>
+    <div class="kpi"><div class="v">3</div><div class="l">isolated environments, separate state</div></div>
+  </section>
+
+  <h2>How a change reaches production<span class="sub">no stored AWS credentials</span></h2>
+  <div class="flow">
+    <div class="step"><div class="n">01</div><h4>Pull request</h4><p>fmt, validate &times;3, TFLint, Checkov, Trivy, Gitleaks, pytest</p></div>
+    <div class="step"><div class="n">02</div><h4>Plan</h4><p>OIDC assume role, saved plan artefact, indicative cost estimate</p></div>
+    <div class="step gate"><div class="n">03</div><h4>Human review</h4><p>Plan read line by line, cost approved, reviewers assigned</p></div>
+    <div class="step gate"><div class="n">04</div><h4>Apply</h4><p>Manual dispatch, protected environment, typed confirmation, saved plan only</p></div>
+  </div>
+
+  <h2>Environments<span class="sub">same modules, different profile</span></h2>
+  <div class="tablewrap">
+    <table>
+      <thead>
+        <tr><th scope="col">Environment</th><th scope="col">VPC</th><th scope="col">Compute</th>
+        <th scope="col">NAT</th><th scope="col">KMS CMK</th><th scope="col">CloudTrail</th>
+        <th scope="col">Backup</th><th scope="col">Log retention</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">dev</th>
+          <td><code>10.10.0.0/16</code></td>
+          <td>0 &times; t3.micro</td>
+          <td class="off">False</td>
+          <td class="off">False</td>
+          <td class="off">False</td>
+          <td class="off">False</td>
+          <td>14 d</td>
+        </tr>
+        <tr>
+          <th scope="row">staging</th>
+          <td><code>10.20.0.0/16</code></td>
+          <td>2 &times; t3.small</td>
+          <td class="on">True</td>
+          <td class="on">True</td>
+          <td class="on">True</td>
+          <td class="on">True</td>
+          <td>30 d</td>
+        </tr>
+        <tr>
+          <th scope="row">production</th>
+          <td><code>10.30.0.0/16</code></td>
+          <td>3 &times; m7i.large</td>
+          <td class="on">True</td>
+          <td class="on">True</td>
+          <td class="on">True</td>
+          <td class="on">True</td>
+          <td>90 d</td>
+        </tr></tbody>
+    </table>
+  </div>
+  <p class="lede" style="margin-top:10px;font-size:13.5px">
+    Values are read from each environment&rsquo;s <code>terraform.tfvars</code>. In zero-cost mode every
+    billable flag is forced off at plan time regardless of what is declared, so these are the
+    <em>declared</em> profiles, not running infrastructure.
+  </p>
+
+  <h2>Modules<span class="sub">resource count from the dev plan</span></h2>
+  <div class="grid">
+        <article class="card">
+          <h3>modules/networking</h3>
+          <p class="count">24<span>resources</span></p>
+          <p class="note">VPC, 6 subnets across 3 AZs, IGW, route tables, optional NAT, 2 NACLs, 3 security groups, S3 gateway endpoint</p>
+        </article>
+        <article class="card">
+          <h3>modules/security</h3>
+          <p class="count">0<span>resources</span></p>
+          <p class="note">Customer managed KMS key, automatic rotation, split key policy, MFA-gated deletion deny</p>
+        </article>
+        <article class="card">
+          <h3>modules/iam</h3>
+          <p class="count">9<span>resources</span></p>
+          <p class="note">Workload role with scoped policy and permission boundary; GitHub OIDC role, no access keys anywhere</p>
+        </article>
+        <article class="card">
+          <h3>modules/ec2</h3>
+          <p class="count">0<span>resources</span></p>
+          <p class="note">IMDSv2 required, hop limit 1, no SSH key, no public IP, encrypted gp3 root volume</p>
+        </article>
+        <article class="card">
+          <h3>modules/s3</h3>
+          <p class="count">8<span>resources</span></p>
+          <p class="note">Public access blocked, SSE, versioning, lifecycle, TLS-only and encryption-required bucket policy</p>
+        </article>
+        <article class="card">
+          <h3>modules/monitoring</h3>
+          <p class="count">4<span>resources</span></p>
+          <p class="note">Log groups with retention, free dashboard, optional alarms and SNS, optional CloudTrail</p>
+        </article>
+        <article class="card">
+          <h3>modules/backup</h3>
+          <p class="count">1<span>resources</span></p>
+          <p class="note">Vault, daily/weekly/monthly rules (35/90/365 d), tag-based selection</p>
+        </article></div>
+
+  <h2>Evidence<span class="sub">what was actually run</span></h2>
+  <div class="two">
+    <div class="evidence">
+      <div class="ev"><span class="name">terraform fmt -check</span><span class="val">clean</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/docs/TESTING.md">details</a></div>
+      <div class="ev"><span class="name">terraform validate &times;3</span><span class="val">valid</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/tree/main/environments">environments</a></div>
+      <div class="ev"><span class="name">terraform plan (dev)</span><span class="val">46 to add &middot; $0</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/screenshots/terraform-plan-dev.txt">capture</a></div>
+      <div class="ev"><span class="name">Checkov</span>
+        <span class="val ">202 passed / 0 failed</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/security/SECURITY_REPORT.md">report</a></div>
+      <div class="ev"><span class="name">Trivy (IaC)</span>
+        <span class="val ">0 failures</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/.trivyignore.yaml">exceptions</a></div>
+      <div class="ev"><span class="name">IAM policy lint</span>
+        <span class="val ">0 failures / 1 warning</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/policies/iam/README.md">policies</a></div>
+      <div class="ev"><span class="name">secret scan</span>
+        <span class="val ">0 findings</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/scripts/secret_scan.py">scanner</a></div>
+      <div class="ev"><span class="name">pytest</span><span class="val">73 passed in 1.73s</span>
+        <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/tree/main/tests">tests</a></div>
+    </div>
+    <div class="card">
+      <h3>Read this next</h3>
+      <ul class="plain">
+        <li><a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/docs/ARCHITECTURE.md">Architecture and trade-offs</a></li>
+        <li><a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/docs/PROJECT_AUDIT.md">Project audit: complete, incomplete, missing</a></li>
+        <li><a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/docs/DEPLOYMENT_GUIDE.md">Deployment guide (approval required)</a></li>
+        <li><a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/docs/COST_MANAGEMENT.md">Cost model and guard rails</a></li>
+        <li><a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone/blob/main/docs/TECHNICAL_INTERVIEW.md">35 interview questions with answers</a></li>
+      </ul>
+      <h3 style="margin-top:18px">Run it yourself</h3>
+      <ul class="plain">
+        <li><code>git clone https://github.com/Divakar-v-cse/enterprise-aws-landing-zone.git</code></li>
+        <li><code>cd environments/dev</code></li>
+        <li><code>terraform init &amp;&amp; terraform plan</code></li>
+        <li>Expect <code>46 to add</code> and $0 spend</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>Why there is no IP address here</h2>
+  <div class="card">
+    <ul class="plain">
+      <li><strong>No deployment.</strong> No AWS credentials were used and no approval was given.</li>
+      <li><strong>Zero compute.</strong> Zero-cost mode sets <code>instance_count = 0</code>, so no instance exists to have an address.</li>
+      <li><strong>Private by design.</strong> Even the production profile places instances in private subnets with no public IP, no load balancer and no DNS record.</li>
+      <li><strong>Administrative access</strong> is AWS Systems Manager Session Manager, which needs no inbound port and no public address.</li>
+      <li>To obtain a reachable address you would need to add an Application Load Balancer (DNS name) or a Network Load Balancer with an Elastic IP (static IP), both billable and both requiring explicit approval.</li>
+    </ul>
+  </div>
+
+  <footer>
+    Generated by <code>scripts/build_frontend.py</code> from plan and scan artefacts.
+    Repository <a href="https://github.com/Divakar-v-cse/enterprise-aws-landing-zone">github.com/Divakar-v-cse/enterprise-aws-landing-zone</a>
+    &middot; commit <code>6169d07</code>.
+    Design and local validation evidence only; no AWS resources were created.
+  </footer>
+</div>
+</body>
+</html>
