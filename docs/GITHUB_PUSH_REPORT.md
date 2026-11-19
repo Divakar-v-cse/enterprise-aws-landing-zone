@@ -114,9 +114,9 @@ the approval gate described in [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md).
 
 | Item | Severity | Note |
 |---|---|---|
-| TFLint not executed locally | medium | Not installed in this environment; the workflow runs it on every PR |
+| TFLint not executed locally | low | Runs in CI on every change and passes; the local binary is still absent |
 | No AWS deployment | expected | Requires authorisation; plan-only evidence |
-| CI not yet executed on GitHub | medium | Starts on the next push; requires the repository variables above |
+| CI executed on GitHub | resolved | validate and security workflows pass (see section 6) |
 | README has no acceptance checklist | low | `docs_lint` warns; content covered by PROJECT_AUDIT |
 | CI deploy policy not tag-conditioned | medium | Documented hardening step in IAM_SECURITY.md |
 | No restore test executed | medium | RPO/RTO are targets, not measurements |
