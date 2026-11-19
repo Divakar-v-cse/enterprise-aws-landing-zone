@@ -44,7 +44,13 @@ jobs:
           test -s frontend/index.html || { echo "::error::frontend/index.html missing"; exit 1; }
           grep -q "Enterprise AWS Landing Zone" frontend/index.html || { echo "::error::unexpected page content"; exit 1; }
 
+      # enablement: true makes the action create the Pages site if it does not
+      # exist yet. Without it the action calls GET /pages, gets 404 on a
+      # repository where Pages was enabled moments after the run started, and
+      # fails the whole job.
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - uses: actions/upload-pages-artifact@v3
         with:
