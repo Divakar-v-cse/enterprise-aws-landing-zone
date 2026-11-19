@@ -146,6 +146,26 @@ screenshots are labelled design/local-validation evidence, not a live account.
    instead of SSH.
 5. **Documented limits.** Every report states what it does not prove.
 
+## Acceptance criteria
+
+- [x] Terraform formats cleanly (`fmt -recursive -check` exit 0)
+- [x] Terraform initialises locally (`init -backend=false`, 3 environments)
+- [x] Terraform validates (3 of 3)
+- [x] Reusable modules with validated inputs and documented outputs
+- [x] Environment configurations are separate directories with separate state
+- [x] Static security scanning runs (Checkov 202 passed / 0 failed, Trivy 0 failures)
+- [x] IAM examples follow least privilege (policy lint: 0 violations)
+- [x] Python automation works (73 tests passing)
+- [x] Drift reporting works within its documented scope
+- [x] CI workflows are valid and approval-gated
+- [x] Production approval configured (protected environment + typed confirmation)
+- [x] No secrets committed (0 findings, no state or plan files tracked)
+- [x] Documentation complete (21 documents, internally linked)
+- [x] Local validation requires no paid AWS services
+
+Deliberately **not** ticked: AWS deployment, TFLint (not installed locally) and a
+restore test. See [docs/GITHUB_PUSH_REPORT.md](docs/GITHUB_PUSH_REPORT.md) section 9.
+
 ## License
 
 [MIT](LICENSE)

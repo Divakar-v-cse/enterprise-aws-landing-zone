@@ -183,10 +183,16 @@ def check_environment(env_dir: Path, environment: str) -> list[Check]:
 def check_repo_hygiene(repo_root: Path) -> list[Check]:
     checks: list[Check] = []
 
+    # Generated artefacts and provider caches are git-ignored: a local plan file
+    # is not a commit candidate, so it must not fail preflight.
+    ignored_roots = {".terraform", "artifacts", ".tools", ".scanner-cache", "node_modules", ".git"}
+
     offenders = [
         core.relpath(path, repo_root)
         for path in repo_root.rglob("*")
-        if path.is_file() and path.suffix.lower() in core.FORBIDDEN_TRACKED_SUFFIXES
+        if path.is_file()
+        and path.suffix.lower() in core.FORBIDDEN_TRACKED_SUFFIXES
+        and not any(part in ignored_roots for part in path.relative_to(repo_root).parts)
     ]
     checks.append(
         Check(

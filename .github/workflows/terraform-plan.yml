@@ -42,7 +42,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.9.8"
+          terraform_version: "1.15.8"
           terraform_wrapper: false
 
       # OIDC is only used when the repository variable AWS_ROLE_TO_ASSUME is set.
@@ -79,7 +79,7 @@ jobs:
       - name: Cost estimate (indicative)
         working-directory: .
         run: |
-          terraform -chdir=environments/$ENVIRONMENT show -json environments/$ENVIRONMENT/plan.tfplan > plan.json
+          terraform show -json "environments/$ENVIRONMENT/plan.tfplan" > plan.json
           python scripts/cost_guard.py --plan plan.json --no-fail
 
       - name: Upload plan artefact

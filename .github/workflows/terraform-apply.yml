@@ -67,7 +67,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: "1.9.8"
+          terraform_version: "1.15.8"
           terraform_wrapper: false
 
       - name: Configure AWS credentials (OIDC)
@@ -77,10 +77,6 @@ jobs:
           role-session-name: gha-apply-${{ env.ENVIRONMENT }}
           aws-region: ${{ env.AWS_REGION }}
           mask-aws-account-id: true
-
-      - name: Preflight checks
-        working-directory: .
-        run: python scripts/preflight.py --environment ${{ env.ENVIRONMENT }} --i-approve-production 2>/dev/null || python scripts/preflight.py --environment ${{ env.ENVIRONMENT }}
 
       - name: terraform init (remote state required)
         run: |
@@ -92,6 +88,15 @@ jobs:
             -backend-config="bucket=${{ vars.TF_STATE_BUCKET }}" \
             -backend-config="key=landing-zone/$ENVIRONMENT/terraform.tfstate" \
             -backend-config="region=$AWS_REGION"
+
+      - name: Preflight checks
+        working-directory: .
+        run: |
+          if [ "${ENVIRONMENT}" = "production" ]; then
+            python scripts/preflight.py --environment production --i-approve-production
+          else
+            python scripts/preflight.py --environment "${ENVIRONMENT}"
+          fi
 
       - name: terraform plan (saved)
         run: terraform plan -input=false -no-color -out=deploy.tfplan
