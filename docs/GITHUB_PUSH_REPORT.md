@@ -7,7 +7,7 @@
 | URL | https://github.com/Divakar-v-cse/enterprise-aws-landing-zone |
 | Owner / repo | `Divakar-v-cse` / `enterprise-aws-landing-zone` |
 | Branch | `main` |
-| First commit | `f94dc2c216d4733425ab18305912479f7943fa5d` |
+| Initial commit | `f94dc2c216d4733425ab18305912479f7943fa5d` |
 | Commit subject | `Complete enterprise AWS landing zone automation` |
 | Remote state before push | empty repository (fetch succeeded, zero heads) |
 | Push method | `git push -u origin main`, no force, no history rewrite |
@@ -70,15 +70,20 @@ Full detail: [../security/SECURITY_REPORT.md](../security/SECURITY_REPORT.md)
 
 ## 6. CI/CD status
 
-| Workflow | Status |
-|---|---|
-| `terraform-validate.yml` | committed, valid YAML, **not yet executed on GitHub** |
-| `security-scan.yml` | committed, valid YAML, not yet executed |
-| `terraform-plan.yml` | committed, requires repository variables to authenticate |
-| `terraform-apply.yml` | committed, manual dispatch only, approval gated |
-| `docs-and-reports.yml` | committed, valid YAML, not yet executed |
+| Workflow | Status | Evidence |
+|---|---|---|
+| `terraform-validate.yml` | **passing** | run `44494360673`: fmt, validate (dev/staging/production), offline plan, TFLint, pytest |
+| `security-scan.yml` | **passing** | run `44494360634`: Checkov, Trivy, Gitleaks, policy lint |
+| `terraform-plan.yml` | committed, needs repository variables to reach AWS | not executed |
+| `terraform-apply.yml` | manual dispatch only, approval gated | not executed (no deployment) |
+| `docs-and-reports.yml` | committed | runs on documentation changes |
 
-The first run appears under the repository's Actions tab. `terraform-plan` and
+The first three runs failed and were fixed in five follow-up commits: multi-platform
+provider lock hashes, an offline plan with no credential chain, a `-chdir` path bug,
+preflight ordering in the apply job, and an unresolvable `aquasecurity/trivy-action`
+tag (replaced with a pinned Trivy CLI install).
+
+`terraform-plan` and
 `terraform-apply` need these repository variables before they can reach AWS:
 
 | Variable | Purpose |
