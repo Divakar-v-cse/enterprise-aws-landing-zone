@@ -5,7 +5,7 @@
 | Workflow | Trigger | What it does | Credentials |
 |---|---|---|---|
 | `terraform-validate.yml` | PR, push to main | fmt, init `-backend=false`, validate, offline plan, TFLint, pytest, docs lint, policy lint | none |
-| `security-scan.yml` | PR, push, weekly cron | Checkov, Trivy (SARIF to code scanning), Gitleaks, repository secret scan, policy lint | none |
+| `security-scan.yml` | PR, push, weekly cron | Checkov, Trivy CLI (SARIF artefact), Gitleaks, repository secret scan, policy lint | none |
 | `terraform-plan.yml` | `workflow_dispatch`, PR on env changes | OIDC assume role, init with S3 backend, plan artefact, cost estimate | OIDC (optional) |
 | `terraform-apply.yml` | `workflow_dispatch` only | Guard on typed confirmation, preflight, plan, apply saved plan | OIDC (required) |
 | `docs-and-reports.yml` | PR on markdown | docs lint, repository contract tests | none |
@@ -60,7 +60,7 @@ does not match the selected environment.
 | `tfplan-<env>-<run>` | 14 days | saved plan and human-readable plan text |
 | `checkov-report` | 90 days (default) | JSON results used by the security report |
 | `policy-lint` | 90 days | IAM policy findings |
-| SARIF | code scanning | Trivy IaC findings in the Security tab |
+| 	rivy-sarif | 30 days | Trivy IaC findings as SARIF (attach to code scanning manually if enabled) |
 
 Plan files can contain sensitive values; they are short-lived artefacts, never
 committed.

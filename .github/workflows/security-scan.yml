@@ -40,21 +40,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      # The Trivy CLI is installed directly instead of using a wrapper action:
+      # the wrapper tag pinned here previously could not be resolved by GitHub,
+      # which failed the job before any scan ran. A pinned release tarball is
+      # deterministic and has no action-resolution dependency.
+      - name: Install Trivy 0.76.2
+        run: |
+          curl -sSfL -o /tmp/trivy.tar.gz \
+            "https://github.com/aquasecurity/trivy/releases/download/v0.76.2/trivy_0.76.2_Linux-64bit.tar.gz"
+          tar -xzf /tmp/trivy.tar.gz -C /tmp trivy
+          install -m 0755 /tmp/trivy /usr/local/bin/trivy
+          trivy --version
+
       - name: Run Trivy config scan
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          scan-type: config
-          scan-ref: .
-          format: sarif
-          output: trivy-results.sarif
-          severity: CRITICAL,HIGH,MEDIUM
-          trivyignores: .trivyignore.yaml
-      - name: Upload Trivy SARIF
-        uses: github/codeql-action/upload-sarif@v3
+        run: |
+          trivy config . \
+            --config policies/scanners/trivy.yaml \
+            --ignorefile .trivyignore.yaml \
+            --severity CRITICAL,HIGH,MEDIUM \
+            --format table
+          trivy config . \
+            --config policies/scanners/trivy.yaml \
+            --ignorefile .trivyignore.yaml \
+            --format sarif --output trivy-results.sarif
+
+      - name: Upload Trivy SARIF artefact
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          sarif_file: trivy-results.sarif
-          category: trivy-iac
+          name: trivy-sarif
+          path: trivy-results.sarif
+          retention-days: 30
+          if-no-files-found: warn
 
   secret-scan:
     name: Secret scanning
